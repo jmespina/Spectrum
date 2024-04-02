@@ -1,0 +1,15 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34601.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F16D4249-6279-474E-8826-742E7FF7445C}") = "SpectrumCodeDiscovery1", "SpectrumCodeDiscovery1.z80cdproj", "{CF589815-171A-454E-B19C-7C27A936E5FB}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7C35882-6466-4325-861E-3024D7EBB0B7}
+	EndGlobalSection
+EndGlobal
