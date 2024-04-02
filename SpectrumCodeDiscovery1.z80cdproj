@@ -11,7 +11,6 @@
     <ProjConf Include="Spectrum.projconf" />
     <Rom Include="Rom\ZxSpectrum48.rom" />
     <DisassAnn Include="Rom\ZxSpectrum48.disann" />
-    <Z80Asm Include="Z80CodeFiles\Code.z80asm" />
     <Z80Asm Include="Z80CodeFiles\graficos.z80asm" />
     <Z80Asm Include="Z80CodeFiles\imprimirMapaColisiones.z80asm" />
     <Z80Asm Include="Z80CodeFiles\mapas.z80asm" />
@@ -25,6 +24,9 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Tap Include="TapeFiles\principal.tap" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />
 </Project>
