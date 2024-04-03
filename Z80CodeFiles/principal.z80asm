@@ -40,9 +40,9 @@ bucle:
     call LEER_TECLADO          ; Leemos el estado de O, P, Q, A
     
     bit 0, a                   ; Modificamos MAPX y MAPY segun OPQA
-    jr z, nopulsada_q
-    ;call Map_Dec_Y
-    CALL podemosIrArriba
+    jr z, nopulsada_q          ; Ya no hace lo descrito arriba sino que va a mis rutinas 
+    ;call Map_Dec_Y            ; para comprobar si se puede mover o no
+    CALL podemosIrArriba       
     jr redraw
 nopulsada_q:
     bit 1, a
@@ -53,7 +53,7 @@ nopulsada_q:
 nopulsada_a:
     bit 2, a
     jr z, nopulsada_p
-	CALL podemosIrDer ; mi rutina
+	CALL podemosIrDer 
     ;call Map_Inc_X
     jr redraw
 nopulsada_p:
@@ -65,10 +65,7 @@ nopulsada_p:
 nopulsada_o:
     jr bucle
  
-loop:
-    inc de
-    inc de
-  jr loop
+
 
 podemosIrArriba:
     ld HL, (DS_COORD_Y)

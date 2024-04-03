@@ -50,6 +50,8 @@ Control_no_left:
     ret
 
 
+
+
 ; Rutinas de https://wiki.speccy.org/cursos/ensamblador/gfx5_mapeados 
 
  
@@ -507,3 +509,4 @@ drawsp16x16_attrab_noinc:
     ldi
     
 ret
+
