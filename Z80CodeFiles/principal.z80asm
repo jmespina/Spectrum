@@ -37,8 +37,13 @@ redraw:
     halt
     
 bucle:
+    xor a
     call LEER_TECLADO          ; Leemos el estado de O, P, Q, A
-    
+    CP 0
+    jp z, meSaltoJoystick
+    CALL leerJoystick           ; leemos joystick
+
+meSaltoJoystick:    
     bit 0, a                   ; Modificamos MAPX y MAPY segun OPQA
     jr z, nopulsada_q          ; Ya no hace lo descrito arriba sino que va a mis rutinas 
     ;call Map_Dec_Y            ; para comprobar si se puede mover o no
@@ -65,7 +70,28 @@ nopulsada_p:
 nopulsada_o:
     jr bucle
  
-
+leerJoystick: ; sacado de https://espamatica.com/0x0a-ensamblador-zx-spectrum-marciano-joystick/#Joystick
+    checkCtrl_Kempston:
+    in      a, ($1f)
+    checkCtrl_Kempston_right:
+    rra
+    jr      nc, checkCtrl_Kempston_left
+    set     $00, d
+    checkCtrl_Kempston_left:
+    rra
+    jr      nc, checkCtrl_Kempston_abajo
+    set     $01, d
+    checkCtrl_Kempston_abajo:
+    rra
+    jr      nc, checkCtrl_Kempston_arriba
+    set     $02, d
+    checkCtrl_Kempston_arriba:
+    rra
+    jr      nc, checkCtrl_Kempston_final
+    set     $03, d
+checkCtrl_Kempston_final:
+    ld a,d
+RET
 
 podemosIrArriba:
     ld HL, (DS_COORD_Y)
