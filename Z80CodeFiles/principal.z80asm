@@ -40,7 +40,7 @@ bucle:
     xor a
     call LEER_TECLADO          ; Leemos el estado de O, P, Q, A
     CP 0
-    jp z, meSaltoJoystick
+    jp nz, meSaltoJoystick
     CALL leerJoystick           ; leemos joystick
 
 meSaltoJoystick:    
