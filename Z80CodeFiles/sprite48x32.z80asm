@@ -28,9 +28,15 @@ loopRecorridoFinal:
     .endl        
     jr nz, loopRecorridoFinal
     
-loopM:
-    jp loopM
-    ret
+    ld a, (DM_NIVEL)
+    INC a
+    ld (DM_NIVEL),a
+
+    .loop 100
+        halt
+    .endl   
+    jp inicioNivel     
+
  
 ; Variables que usaremos como parámetros
 DS_SPRITESM  DEFW   0

@@ -6,13 +6,16 @@
 ; Put your Z80 assembly code into code files <- Comentario creado con el SpectNetIde que indica adonde comienza todo.
 Start:
 ORG     35000
-    ;CALL meta
     ld hl, sokoban1_gfx
     ld (DM_SPRITES), hl
     ld hl, sokoban1_attr
     ld (DM_ATTRIBS), hl
-    ld hl, mapa_nivel01
-    ld (DM_MAP), hl
+    ;ld hl, mapa_nivel02
+    ;ld (DM_MAP), hl
+    ld a,1
+    ld (DM_NIVEL),a
+
+inicioNivel:
 	
 	LD HL, mapa_pantalla16x12 ;JM
     LD (DM_MAP10x10), HL  
@@ -26,7 +29,10 @@ ORG     35000
     ld (DM_MAPX), a            ; Establecemos MaPX, MaPY iniciales = 0
     ld (DM_MAPY), a
 
+    
+
 CALL pintarBicho ; inicializamos
+CALL seleccionarNivel ; elegimos nivel 1
  
 redraw:
     call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
@@ -35,6 +41,7 @@ redraw:
     halt
     halt
     halt
+    
     
 bucle:
     xor a
@@ -366,13 +373,12 @@ DM_WIDTH    DEFB   0
 DM_HEIGHT   DEFB   0
 DM_MAPX     DEFW   0
 DM_MAPY     DEFW   0
+DM_NIVEL    DEFB   0
  
 ;-------------------------------------------------------------
 ; Algunos valores hardcodeados para el ejemplo, en la rutina
 ; final se puede utilizar DM_WIDTH y DM_HEIGHT.
 ;-------------------------------------------------------------
-;ANCHO_MAPA_TILES       EQU   64
-;ALTO_MAPA_TILES        EQU   12
 ANCHO_MAPA_TILES       EQU   48
 ALTO_MAPA_TILES        EQU   12
 ANCHO_PANTALLA         EQU   16
@@ -408,9 +414,21 @@ DS_COORD_X  DEFB   0
 DS_COORD_Y  DEFB   0
 DS_NUMSPR   DEFB   0
 
-
-
-
+seleccionarNivel:
+    ld a, (DM_NIVEL)
+    cp 1
+    jp z, uno
+    jp dos
+    jp seleccionarNivelFin
+uno:
+    ld hl, mapa_nivel01
+    jp seleccionarNivelFin
+dos:
+    ld hl, mapa_nivel02
+    jp seleccionarNivelFin
+seleccionarNivelFin:
+    ld (DM_MAP), hl        
+    ret
 
 
  
