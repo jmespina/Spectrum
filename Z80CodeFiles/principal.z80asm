@@ -6,9 +6,9 @@
 ; Put your Z80 assembly code into code files <- Comentario creado con el SpectNetIde que indica adonde comienza todo.
 Start:
 ORG     35000
-    ld hl, sokoban1_gfx
+    ld hl, rocasSprites
     ld (DM_SPRITES), hl
-    ld hl, sokoban1_attr
+    ld hl, rocasAtributos
     ld (DM_ATTRIBS), hl
     ;ld hl, mapa_nivel02
     ;ld (DM_MAP), hl
