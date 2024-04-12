@@ -1,0 +1,37 @@
+﻿; Fichero con todas las cadenas de texto
+
+
+
+rotulolinea1:
+	;.dm "\a\x01\x01" ; AT 10, 4
+	;.dm "\p\x04"     ; PAPER 4
+	.dm "****** *        *  ****    ****"
+	.db 0xFF         ; terminate
+	
+rotulolinea2:
+	.dm "*      *       *   *  *   *    "
+	.db 0xFF         ; terminate
+
+rotulolinea3:
+	.dm "*      *      *   *    *  *"
+	.db 0xFF         ; terminate
+
+rotulolinea4:
+	.dm "****   *      *  *      * *"
+	.db 0xFF         ; terminate
+
+rotulolinea5:
+	.dm "*      *      *  ********  ****"
+	.db 0xFF         ; terminate
+
+rotulolinea6:
+	.dm "*      *      *  *      *      *"
+	.db 0xFF         ; terminate
+
+rotulolinea7:
+	.dm "*      *      *  *      *      *"
+	.db 0xFF         ; terminate
+
+rotulolinea8:
+	.dm "****** ****** *  *      *  **** "
+	.db 0xFF         ; terminate

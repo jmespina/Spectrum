@@ -15,6 +15,10 @@ ORG     35000
     ld a,1
     ld (DM_NIVEL),a
 
+CALL menu
+loopm;
+      jp loopm
+
 inicioNivel:
 	
 	LD HL, mapa_pantalla16x12 ;JM
@@ -430,6 +434,84 @@ seleccionarNivelFin:
     ld (DM_MAP), hl        
     ret
 
+menu:
+    ld      bc, $0e1f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+
+    ld hl,rotulolinea1
+    CALL PrintStringFF
+    
+ld      bc, $0d1f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea2
+    CALL PrintStringFF
+
+ld      bc, $0c1f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea3
+    CALL PrintStringFF
+
+ld      bc, $0b1f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea4
+    CALL PrintStringFF
+
+ld      bc, $0a1f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea5
+    CALL PrintStringFF
+
+ld      bc, $091f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea6
+    CALL PrintStringFF
+
+ld      bc, $081f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea7
+    CALL PrintStringFF
+
+ld      bc, $071f
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea8
+    CALL PrintStringFF
+
+
+loopt:
+    jp loopt
+
 
  
 #include "imprimirMapaColisiones.z80asm"
@@ -437,3 +519,6 @@ seleccionarNivelFin:
 #include "graficos.z80asm"
 #include "rutinasPrevias.z80asm"
 #include "sprite48x32.z80asm"
+#include "cadenasTexto.z80asm"
+
+

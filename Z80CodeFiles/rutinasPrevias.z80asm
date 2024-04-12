@@ -510,3 +510,19 @@ drawsp16x16_attrab_noinc:
     
 ret
 
+; de https://espamatica.com/0x09-ensamblador-zx-spectrum-marciano-partida/
+; -----------------------------------------------------------------------------
+; Pinta cadenas.
+;
+; Entrada:  HL = primera posición de memoria de la cadena
+;
+; Altera el valor de los registros AF y HL
+; -----------------------------------------------------------------------------
+PrintStringFF:
+ld      a, (hl)         ; Carga en A el carácter a pintar
+cp      $ff             ; Comprueba si es $FF
+ret     z               ; De ser así sale
+rst     $10             ; Pinta el carácter
+inc     hl              ; Apunta HL al siguiente carácter
+jp      PrintStringFF   ; Bucle hasta que termine de pintar la cadena
+ret

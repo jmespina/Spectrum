@@ -1,0 +1,183 @@
+  .org #0001
+
+; External symbols
+
+  jp #F6B1
+  di
+  ld b,(hl)
+  inc hl
+L0007:
+  push bc
+  push hl
+  ld e,(hl)
+  inc hl
+  ld d,(hl)
+  inc hl
+L000D:
+  ld b,(hl)
+  ld a,b
+  and a
+  jr z,L001B
+L0012:
+  ld a,#17
+  ld a,#FE
+  call #F6B0
+  djnz L0012
+L001B:
+  inc hl
+  ld b,(hl)
+  ld a,#07
+  ccf
+  cp #CD
+  or b
+  or #10
+  rst #30
+  inc hl
+  dec de
+  ld a,d
+  or e
+  jr nz,L000D
+  pop hl
+  pop bc
+  djnz L0007
+  ei
+  ret
+  rlca
+  ld (#0000),a
+  dec b
+  ld b,#18
+  inc b
+  ld (bc),a
+  ld bc,#0203
+  add hl,de
+  add hl,bc
+  dec de
+  ld (bc),a
+  ld (bc),a
+  add hl,bc
+  ld d,#06
+  ld a,(bc)
+  inc b
+  ex af,af'
+  inc b
+  add hl,hl
+  ld b,#2D
+  nop
+  ld a,(de)
+  inc b
+  inc e
+  ld bc,#0101
+  ld b,#01
+  inc de
+  ld bc,#0705
+  ld a,(de)
+  ld (bc),a
+  inc b
+  ld (bc),a
+  ld a,(bc)
+  ld bc,#0103
+  dec e
+  inc b
+  ld bc,#1308
+  ld (bc),a
+  ld (bc),a
+  ld (bc),a
+  ld b,#03
+  ld a,(de)
+  rlca
+  ld (#040A),hl
+  ld bc,#0212
+  inc b
+  inc bc
+  djnz L007A
+  ld a,(bc)
+  inc bc
+L007A:
+  inc c
+  ld bc,#080B
+  inc d
+  ld (bc),a
+  dec bc
+  ld a,(bc)
+  inc b
+  ld bc,#020A
+  ld (bc),a
+  ld bc,#0706
+  ld a,(bc)
+  ld (bc),a
+  ld a,(bc)
+  ld (bc),a
+  inc b
+  ld bc,#0203
+  ex af,af'
+  dec b
+  djnz L0098
+  ex af,af'
+  inc bc
+L0098:
+  ld (de),a
+  ret
+  ld hl,(#5C4B)
+L009D:
+  ld a,(hl)
+  cp #56
+  jr z,L00AD
+  cp #80
+  jp z,#0670
+  call #19B8
+  ex de,hl
+  jr L009D
+L00AD:
+  inc hl
+  ld a,#A7
+  push af
+  ld c,(hl)
+  inc hl
+  ld b,(hl)
+  ld a,b
+  or c
+  jp z,#F9C1
+  inc hl
+  pop af
+  rrca
+  ld (#F62B),a
+  ld (#F636),a
+L00C2:
+  ld a,(hl)
+  cp #20
+  jr z,L00FB
+  cp #41
+  jp c,#F7D3
+  cp #7B
+  jp nc,#F7D3
+  cp #5B
+  jr c,L00DC
+  cp #61
+  jp c,#F7D3
+  sub #20
+L00DC:
+  push bc
+  push hl
+  sub #41
+  sla a
+  ld e,a
+  ld d,#00
+  ld hl,#F71E
+  add hl,de
+  ld e,(hl)
+  inc hl
+  ld h,(hl)
+  ld l,e
+  call #F61B
+  pop hl
+  pop bc
+  dec bc
+  inc hl
+  ld a,b
+  or c
+  jp z,#F7D3
+  jr L00C2
+L00FB:
+  push bc
+  push hl
+  ld hl,#1F40
