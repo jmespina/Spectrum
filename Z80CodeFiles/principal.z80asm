@@ -434,18 +434,60 @@ seleccionarNivelFin:
     ld (DM_MAP), hl        
     ret
 
+menu2:
+    ld		b, $18 ;-$0a	; Carga la coordenada Y en B
+    ld		c, $21-$02	; Carga la coordenada X en C
+    call	$0dd9		  ; Posiciona el cursor
+
+    ld		hl, msgmenu2		  ; Carga en HL la dirección de memoria del mensaje
+    Buclexc:
+    ld		a, (hl)		  ; Carga un carácter de la cadena
+    or		a			      ; Comprueba si A es 0.
+    jr		z, Fin		  ; Salta a la etiqueta fin si A = 0
+    rst		$10			    ; Imprime el carácter
+    inc		hl			    ; Apunta HL al siguiente carácter
+    jr		Buclexc		    ; Bucle hasta que A = 0
+Fin:
+RET
+
+; Put your Z80 assembly code into code files
+menu3:
+	ld a,2;	      ; upper screen
+	call #1601    ; open the channel
+	ld hl,Message ; HL points the the message string
+NextCh:
+	ld a,(hl)     ; get next character
+	or a
+	jp z,#12a9    ; jump back to main cycle when terminated
+	rst #10       ; display character
+	inc hl        ; next character
+	jr NextCh     ; next loop
+
+Message:
+	.dm "\a\x0A\x06" ; AT 10, 4
+	.dm "\p\x04"     ; PAPER 4
+	.dm "Welcome to Klive IDE"
+	.db 0x00         ; terminate
+
+msgmenu2:	.dm "Hola ensamblador ZX Spectrum"
+            .db 0x00         ; terminate
+					        ; Cadena terminada en 0 = null
+
 menu:
-    ld      bc, $0e1f
+    ld a,2;	      ; upper screen
+	call #1601    ; open the channel
+    ld      bc, $1820
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
+
 pop		hl	; Recupera el valor de HL
 pop		de	; Recupera el valor de DE
 
     ld hl,rotulolinea1
     CALL PrintStringFF
     
-ld      bc, $0d1f
+ld      bc, $1720
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -454,7 +496,7 @@ pop		de	; Recupera el valor de DE
     ld hl,rotulolinea2
     CALL PrintStringFF
 
-ld      bc, $0c1f
+ld      bc, $1620
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -463,7 +505,7 @@ pop		de	; Recupera el valor de DE
     ld hl,rotulolinea3
     CALL PrintStringFF
 
-ld      bc, $0b1f
+ld      bc, $1520
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -472,7 +514,7 @@ pop		de	; Recupera el valor de DE
     ld hl,rotulolinea4
     CALL PrintStringFF
 
-ld      bc, $0a1f
+ld      bc, $1420
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -481,7 +523,7 @@ pop		de	; Recupera el valor de DE
     ld hl,rotulolinea5
     CALL PrintStringFF
 
-ld      bc, $091f
+ld      bc, $1320
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -490,7 +532,7 @@ pop		de	; Recupera el valor de DE
     ld hl,rotulolinea6
     CALL PrintStringFF
 
-ld      bc, $081f
+ld      bc, $1220
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -499,7 +541,7 @@ pop		de	; Recupera el valor de DE
     ld hl,rotulolinea7
     CALL PrintStringFF
 
-ld      bc, $071f
+ld      bc, $1120
      push	de	; Preserva el valor de DE
 push	hl	; Preserva el valor de HL
 call	$0a23	; Llama a la rutina de la ROM
@@ -507,6 +549,62 @@ pop		hl	; Recupera el valor de HL
 pop		de	; Recupera el valor de DE
     ld hl,rotulolinea8
     CALL PrintStringFF
+
+ld      bc, $0f20
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea9
+    CALL PrintStringFF
+
+ld      bc, $0e20
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea10
+    CALL PrintStringFF
+
+ld      bc, $0d20
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea11
+    CALL PrintStringFF
+
+ld      bc, $0c20
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea12
+    CALL PrintStringFF
+
+ld      bc, $0b20
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea13
+    CALL PrintStringFF
+
+ld      bc, $0a20
+     push	de	; Preserva el valor de DE
+push	hl	; Preserva el valor de HL
+call	$0a23	; Llama a la rutina de la ROM
+pop		hl	; Recupera el valor de HL
+pop		de	; Recupera el valor de DE
+    ld hl,rotulolinea14
+    CALL PrintStringFF
+
+
 
 
 loopt:

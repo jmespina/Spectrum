@@ -35,3 +35,29 @@ rotulolinea7:
 rotulolinea8:
 	.dm "****** ****** *  *      *  **** "
 	.db 0xFF         ; terminate
+
+
+rotulolinea9:
+.dm "*   *  ***** *    *   *   **   *"
+.db 0xFF         ; terminate
+
+rotulolinea10:
+.dm " * *      *  *    *  * *  * *  *"
+.db 0xFF         ; terminate
+
+rotulolinea11:
+.dm "  *       *  *    * *   * *  * *"
+.db 0xFF         ; terminate
+
+rotulolinea12:
+.dm "  *    *  *  *    * ***** *   **"
+.db 0xFF         ; terminate
+
+
+rotulolinea13:
+.dm "  *     * *   *  *  *   * *    *"
+.db 0xFF         ; terminate
+
+rotulolinea14:
+.dm "  *      *     **   *   * *    *"
+.db 0xFF         ; terminate
