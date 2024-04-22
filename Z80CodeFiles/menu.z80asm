@@ -1,0 +1,84 @@
+﻿
+menu:
+    ld a,2;	      ; upper screen
+	call #1601    ; open the channel
+    
+    ld      bc, $1820
+    CALL posiciona
+    ld hl,rotulolinea1
+    CALL PrintStringFF
+    
+    ld      bc, $1720
+    CALL posiciona
+    ld hl,rotulolinea2
+    CALL PrintStringFF
+
+    ld      bc, $1620
+    CALL posiciona
+    ld hl,rotulolinea3
+    CALL PrintStringFF
+
+    ld      bc, $1520
+    CALL posiciona
+    ld hl,rotulolinea4
+    CALL PrintStringFF
+
+    ld      bc, $1420
+    CALL posiciona
+    ld hl,rotulolinea5
+    CALL PrintStringFF
+
+    ld      bc, $1320
+    CALL posiciona
+    ld hl,rotulolinea6
+    CALL PrintStringFF
+
+    ld      bc, $1220
+    CALL posiciona
+    ld hl,rotulolinea7
+    CALL PrintStringFF
+
+    ld      bc, $1120
+    CALL posiciona
+    ld hl,rotulolinea8
+    CALL PrintStringFF
+
+    ld      bc, $0f20
+    CALL posiciona
+    ld hl,rotulolinea9
+    CALL PrintStringFF
+
+    ld      bc, $0e20
+    CALL posiciona
+    ld hl,rotulolinea10
+    CALL PrintStringFF
+
+    ld      bc, $0d20
+    CALL posiciona
+    ld hl,rotulolinea11
+    CALL PrintStringFF
+
+    ld      bc, $0c20
+    CALL posiciona
+    ld hl,rotulolinea12
+    CALL PrintStringFF
+
+    ld      bc, $0b20
+    CALL posiciona
+    ld hl,rotulolinea13
+    CALL PrintStringFF
+
+    ld      bc, $0a20
+    CALL posiciona     
+    ld hl,rotulolinea14
+    CALL PrintStringFF
+
+
+posiciona:
+     push	de	; Preserva el valor de DE
+    push	hl	; Preserva el valor de HL
+    call	$0a23	; Llama a la rutina de la ROM
+    pop		hl	; Recupera el valor de HL
+    pop		de	; Recupera el valor de DE
+RET
+
