@@ -12,12 +12,14 @@ ORG     35000
     ld (DM_ATTRIBS), hl
     ;ld hl, mapa_nivel02
     ;ld (DM_MAP), hl
-    ld a,1
+    ld a,0  ; inicializamos el nivel a 0, lo que hace que estemos en el bucle de esperar
     ld (DM_NIVEL),a
 
+bucleMenu;
 CALL menu
-loopm;
-      jp loopm
+ld a,(DM_NIVEL)
+cp 0
+jp z, bucleMenu ; Si ha cambiado el nivel, empieza el juego
 
 inicioNivel:
 	

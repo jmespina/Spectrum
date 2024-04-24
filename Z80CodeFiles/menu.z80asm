@@ -73,6 +73,94 @@ menu:
     ld hl,rotulolinea14
     CALL PrintStringFF
 
+ld      bc, $0720
+    CALL posiciona     
+    CALL imprimirAbreInterrogacion
+    ld hl,linea15
+    CALL PrintStringFF
+
+
+ld      bc, $0518
+    CALL posiciona     
+    ld hl,linea16a
+    CALL PrintStringFF
+    CALL imprimirenyes
+    ld hl,linea16b
+    CALL PrintStringFF
+
+ld      bc, $0310
+    CALL posiciona     
+    ld hl,linea17a
+    CALL PrintStringFF
+    CALL imprimirenyes
+    ld hl,linea16b
+    CALL PrintStringFF
+
+    ld      bc, $0108
+    CALL posiciona     
+    ld hl,linea18a
+    CALL PrintStringFF
+    CALL imprimirenyes
+    ld hl,linea16b
+    CALL PrintStringFF
+
+    CALL leerEdad
+
+RET
+
+leerEdad:
+    ld      a, $f7              ; Carga en A la semifila 1-5
+    in      a, ($fe)            ; Lee el teclado
+    ld      b, $01              ; Carga 1 en B, opción teclas
+    rra                         ; Rota A a la derecha para saber si ha pulsado 1
+    jr      nc, leerEdadFin    ; Si no hay acarreo, se ha pulsado y salta
+    inc     b                   ; Incrementa B, opción Kempston
+    rra                         ; Rota A a la derecha para saber si ha pulsado 2
+    jr      nc, leerEdadFin    ; Si no hay acarreo, se ha pulsado y salta
+    inc     b                   ; Incrementa B, opción Sinclar 1
+    rra                         ; Rota A a la derecha para saber si ha pulsado 3
+    jr      nc, leerEdadFin    ; Si no hay acarreo, se ha pulsado y salta
+    inc     b                   ; Incrementa B, opción Sinclar 1
+    rra                         ; Rota A a la derecha para saber si ha pulsado 4
+    jr      nc, leerEdadFin    ; Si no hay acarreo, se ha pulsado y salta
+    inc     b                   ; Incrementa B, opción Sinclar 2
+    rra                         ; Rota A a la derecha para saber si ha pulsado 5
+    jr      nc, leerEdadFin    ; Si no hay acarreo, se ha pulsado y salta
+    jr      c, leerEdad      ; Si hay acarreo, no se ha pulsado, bucle
+RET
+
+leerEdadFin:
+    ; ha leido del 1 al 5
+    ld a,b ; paso el valor de b a a
+    ld b,1 ; cargo en b el valor 1
+    cp b
+    ret z ; Si b vale 1, volvemos
+
+    ld b,2 ; cargo en b el valor 2
+    cp b
+    ret z ; Si b vale 2, volvemos
+
+    ld b,3 ; cargo en b el valor 3
+    cp b
+    jp z, leerEdadFin3 ; Si b vale 3, saltamos 
+
+    ld b,4 ; cargo en b el valor 4
+    cp b
+    jp z, leerEdadFin4 ; Si b vale 4, saltamos 
+    ; Si llegamos aqui, es que la edad es 5
+    ld a,20 ; La edad es 5, vamos al nivel 20
+    ld (DM_NIVEL),a
+RET
+
+leerEdadFin3:
+    ld a,1 ; Si la edad es 3, vamos al nivel 1
+    ld (DM_NIVEL),a
+RET
+
+leerEdadFin4:
+    ld a,10 ; Si la edad es 4, vamos al nivel 10
+    ld (DM_NIVEL),a
+RET
 
 posiciona:
      push	de	; Preserva el valor de DE
@@ -81,4 +169,35 @@ posiciona:
     pop		hl	; Recupera el valor de HL
     pop		de	; Recupera el valor de DE
 RET
+
+imprimirenyes: 
+    ld hl, UDGEsp
+    ld (UDG), hl
+
+    ld a, $90    ;posición 144, que corresponde al primer UDG
+    RST $10
+RET
+
+imprimirAbreInterrogacion: 
+    ld hl, UDGEsp ; Es necesario, si lo quito no sale el UDG
+    ld (UDG), hl
+
+    ld a, $91    ;posición 145, que corresponde al segundo UDG
+    RST $10
+RET
+
+
+; fuentes sacadas de:
+; https://fontstruct.com/fontstructions/show/118432/sinclair_zx_spectrum_es
+
+UDGEsp:
+db $3c, $00, $62, $52, $4a, $46, $42, $00 ; definimos como UDG la letra Ñ
+db $00, $10, $00, $10, $20, $40, $42, $3c ; definimos como UDG el caracter ¿
+
+; Dirección de memoria donde se cargan los gráficos definidos por el usuario.
+UDG: EQU $5c7b
+
+
+;ld a, $91 
+;RST $10
 

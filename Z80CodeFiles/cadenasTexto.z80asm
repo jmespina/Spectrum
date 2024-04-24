@@ -61,3 +61,23 @@ rotulolinea13:
 rotulolinea14:
 .dm "  *      *     **   *   * *    *"
 .db 0xFF         ; terminate
+
+linea15:
+.dm "QUE EDAD TIENES?"
+.db 0xFF         ; terminate
+
+linea16a:
+.dm "3 A"
+.db 0xFF         ; terminate
+
+linea16b:
+.dm "OS"
+.db 0xFF         ; terminate
+
+linea17a:
+.dm "4 A"
+.db 0xFF         ; terminate
+
+linea18a:
+.dm "5 A"
+.db 0xFF         ; terminate
