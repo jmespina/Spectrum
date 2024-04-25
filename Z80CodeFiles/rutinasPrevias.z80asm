@@ -81,7 +81,7 @@ DrawMap_16x16_Map:
 	
     ;;; NUEVO: Posicionamos el puntero de mapa en posicion inicial.
     ld hl, (DM_MAPY)
-    ld de, ANCHO_MAPA_TILES
+    ld de, (ANCHO_MAPA_TILES)
     call MULT_HL_POR_DE       ; HL = (ANCHO_MAPA * MAPA_Y)
     ld bc, (DM_MAPX)
     add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
@@ -281,7 +281,17 @@ drawmg16_next:
     jp nz, drawmg16_xloop
  
     ;;; NUEVO: Incrementar puntero de mapa a siguiente linea
-    ld bc, ANCHO_MAPA_TILES - ANCHO_PANTALLA
+    ;ld bc, ANCHO_MAPA_TILES - ANCHO_PANTALLA :Aqui es contante
+
+    push hl
+    ld hl, (ANCHO_MAPA_TILES) ; ahora que lo hemos definido como variable lo resolvemos asi
+    ld de, ANCHO_PANTALLA
+    sbc hl,de
+    push hl ; guardo el resultado en la pila para pasarlo a bc
+    pop bc
+    pop hl
+    
+
     add ix, bc
     ;;; FIN NUEVO
  
@@ -300,12 +310,21 @@ MueveMapaIX:
     ld hl, (DM_MAPX)
  
     ;;; Comparacion 16 bits de HL y (ANCHO_MAPA-ANCHO_PANTALLA)
-    ld a, h
-    CP (ANCHO_MAPA_TILES-ANCHO_PANTALLA) / 256
-    ret nz
-    ld a, l
-    CP (ANCHO_MAPA_TILES-ANCHO_PANTALLA) % 256
-    ret z
+    ;ld a, h
+    ;CP (ANCHO_MAPA_TILES-ANCHO_PANTALLA) / 256 ; Esta ANCHO_MAPA_TILES definido como constante
+
+    ;PUSH HL
+    ;LD HL, (ANCHO_MAPA_TILES)
+    ;PUSH DE
+    ;LD DE, ANCHO_PANTALLA
+    ;SBC HL, DE
+    ;POP DE
+    ;POP HL
+
+    ;ret nz
+    ;ld a, l
+    ;CP (ANCHO_MAPA_TILES-ANCHO_PANTALLA) % 256
+    ;ret z
  
     inc hl                     ; No eran iguales, podemos incrementar.
     ld (DM_MAPX), hl

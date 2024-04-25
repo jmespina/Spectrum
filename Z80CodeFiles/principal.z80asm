@@ -15,14 +15,13 @@ ORG     35000
     ld a,0  ; inicializamos el nivel a 0, lo que hace que estemos en el bucle de esperar
     ld (DM_NIVEL),a
 
-bucleMenu;
-CALL menu
-ld a,(DM_NIVEL)
-cp 0
-jp z, bucleMenu ; Si ha cambiado el nivel, empieza el juego
+bucleMenu:
+    CALL menu
+    ld a,(DM_NIVEL)
+    cp 0
+    jp z, bucleMenu ; Si ha cambiado el nivel, nos salimos del bucle y empieza el juego
 
 inicioNivel:
-	
 	LD HL, mapa_pantalla16x12 ;JM
     LD (DM_MAP10x10), HL  
     ld a, ANCHO_PANTALLA
@@ -385,8 +384,10 @@ DM_NIVEL    DEFB   0
 ; Algunos valores hardcodeados para el ejemplo, en la rutina
 ; final se puede utilizar DM_WIDTH y DM_HEIGHT.
 ;-------------------------------------------------------------
-ANCHO_MAPA_TILES       EQU   48
-ALTO_MAPA_TILES        EQU   12
+;ANCHO_MAPA_TILES       EQU   48
+;ALTO_MAPA_TILES        EQU   12
+ANCHO_MAPA_TILES       DEFW     0
+ALTO_MAPA_TILES        DEFW     0 
 ANCHO_PANTALLA         EQU   16
 ALTO_PANTALLA          EQU   12
 
@@ -424,14 +425,29 @@ seleccionarNivel:
     ld a, (DM_NIVEL)
     cp 1
     jp z, uno
-    jp dos
+    cp 2
+    jp z, dos
+    cp 10
+    jp z, diez
     jp seleccionarNivelFin
 uno:
-    ld hl, mapa_nivel01
+    ld a,48  ; definimos las dimensiones del nivel 1
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel01 ;cargamos mapa
     jp seleccionarNivelFin
 dos:
     ld hl, mapa_nivel02
     jp seleccionarNivelFin
+diez:
+    ld a,60  ; definimos las dimensiones del nivel 10
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel10
+    jp seleccionarNivelFin
+
 seleccionarNivelFin:
     ld (DM_MAP), hl        
     ret

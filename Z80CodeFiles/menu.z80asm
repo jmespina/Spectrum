@@ -73,14 +73,13 @@ menu:
     ld hl,rotulolinea14
     CALL PrintStringFF
 
-ld      bc, $0720
+    ld      bc, $0720
     CALL posiciona     
     CALL imprimirAbreInterrogacion
     ld hl,linea15
     CALL PrintStringFF
 
-
-ld      bc, $0518
+    ld      bc, $0518
     CALL posiciona     
     ld hl,linea16a
     CALL PrintStringFF
@@ -88,7 +87,7 @@ ld      bc, $0518
     ld hl,linea16b
     CALL PrintStringFF
 
-ld      bc, $0310
+    ld      bc, $0310
     CALL posiciona     
     ld hl,linea17a
     CALL PrintStringFF
@@ -196,8 +195,4 @@ db $00, $10, $00, $10, $20, $40, $42, $3c ; definimos como UDG el caracter ¿
 
 ; Dirección de memoria donde se cargan los gráficos definidos por el usuario.
 UDG: EQU $5c7b
-
-
-;ld a, $91 
-;RST $10
 
