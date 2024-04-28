@@ -1,4 +1,5 @@
-﻿; Aniacion final de nivel. El sprite pasa y va borrando su rastro.
+﻿; Animacion final de nivel. El sprite pasa y va borrando su rastro.
+; version final
 
 
 meta:
@@ -6,10 +7,16 @@ meta:
     ld (DS_SPRITESM), hl
     ld hl, monster_truck_META_attribM
     ld (DS_ATTRIBSM), hl
-    ld a, 16
+    ;ld a, 16          ;Hardcore inicial de adonde salia el Monster Truck al llegar a la meta
+    ;ld (DS_COORD_XM), a
+    ;ld a, 10
+    ;ld (DS_COORD_YM), a
+
+    ld a, (DS_COORD_X)      ; Ahora el Monster Truck saldra de adonde este el personaje
     ld (DS_COORD_XM), a
-    ld a, 10
+    ld a,(DS_COORD_Y)
     ld (DS_COORD_YM), a
+
     ld a, 7 ;antes eran 6
     ld (DS_WIDTHM), a
     ld a, 4
@@ -105,7 +112,12 @@ drawsp_mul2:
  
     ;;; Calculamos las coordenadas destino de pantalla en DE:
  
-    ld bc, (DS_COORD_XM)     ; B = Y,  C = X
+    ; ld bc, (DS_COORD_XM)     ; B = Y,  C = X originariamente codifica la posicion con un registro de 16 bits
+    ld a, (DS_COORD_YM)     
+    ld b,a                  ; B = Y
+    ld a, (DS_COORD_XM)     ; C = X,    eje x
+    ld c,a
+
     ld a, b
     and $18
     add a, $40
@@ -239,39 +251,4 @@ drawsp_attrab_noinc:
 drawsp_height          DB 0
 drawsp_width_by_height DW 0
 
-monster_truck_METAM:
-    DEFB	  0,  0,  7,130,  0,  0,  0,  0
-	DEFB	  4, 56, 68,124,  0,  0,  0,  2
-	DEFB	 64, 40,255,  0,  0,  0,  2, 77
-	DEFB	176,193,128,  0,  0,  1,141,160
-	DEFB	192,192,  0,  0,  0, 64, 32,192
-	DEFB	224,  0,  0,  0, 70, 64,192,241
-	DEFB	240,  0,  0, 64, 64,255,249,240
-	DEFB	  0,127,255,255,255,255,248,  0
-	DEFB	127,255,255,195,255,248,  0,127
-	DEFB	255,255,223,255,254,  0,127,255
-	DEFB	255,255,255,254,  0,127,255,255
-	DEFB	255,255,255,  0,127,255,255,255
-	DEFB	255,255,  0,255,255,255,255,255
-	DEFB	255,  0,248, 65,255,255,248,143
-	DEFB	  0,112, 64,255,255,240,131,  0
-	DEFB	  0, 64, 16,  8,  0,128,  0,  0
-	DEFB	 64,  8, 16,  0,192,  0,  0, 64
-	DEFB	 15,224,  0, 64,  0,  0, 64,120
-	DEFB	 62,  0, 64,  0,  0, 65,192,  3
-	DEFB	192, 64,  0,  0,255,  0,  0,120
-	DEFB	240,  0,  3,156,  0,  0, 15,156
-	DEFB	  0,  6,  6,  0,  0,  6,  6,  0
-	DEFB	  4,102,  0,  0,  4,102,  0, 12
-	DEFB	147,  0,  0, 12,147,  0, 12,147
-	DEFB	  0,  0, 12,147,  0,  4,102,  0
-	DEFB	  0,  4,102,  0,  6,  6,  0,  0
-	DEFB	  6,  6,  0,  3,156,  0,  0,  3
-	DEFB	156,  0,  0,240,  0,  0,  0,240
-	
-	
-monster_truck_META_attribM:
-    DEFB	  0, 69, 69, 71,  1,  1,  1,  0
-	DEFB	  1,  1,  1,  1,  1,  1,  0,  1
-	DEFB	  1,  1,  1,  1,  1,  0,  1,  1
-	DEFB	  0,  0,  1,  1
+   

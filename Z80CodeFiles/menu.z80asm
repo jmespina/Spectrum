@@ -76,7 +76,10 @@ menu:
     ld      bc, $0720
     CALL posiciona     
     CALL imprimirAbreInterrogacion
-    ld hl,linea15
+    ld hl,linea15a
+    CALL PrintStringFF
+    CALL imprimirenyes
+    ld hl,linea15b
     CALL PrintStringFF
 
     ld      bc, $0518
@@ -133,7 +136,7 @@ leerEdadFin:
     ld a,b ; paso el valor de b a a
     ld b,1 ; cargo en b el valor 1
     cp b
-    ret z ; Si b vale 1, volvemos
+    jp z, leerEdadFin1 ; Acceso secreto al nivel 0 de testeo
 
     ld b,2 ; cargo en b el valor 2
     cp b
@@ -148,6 +151,11 @@ leerEdadFin:
     jp z, leerEdadFin4 ; Si b vale 4, saltamos 
     ; Si llegamos aqui, es que la edad es 5
     ld a,20 ; La edad es 5, vamos al nivel 20
+    ld (DM_NIVEL),a
+RET
+
+leerEdadFin1:
+    ld a,99 ; Si la edad es 1, vamos al nivel secreto de testeo, 99
     ld (DM_NIVEL),a
 RET
 

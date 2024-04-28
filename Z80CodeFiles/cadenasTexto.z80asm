@@ -62,8 +62,12 @@ rotulolinea14:
 .dm "  *      *     **   *   * *    *"
 .db 0xFF         ; terminate
 
-linea15:
-.dm "QUE EDAD TIENES?"
+linea15a:
+.dm "CUANTOS A"
+.db 0xFF         ; terminate
+
+linea15b:
+.dm "OS TIENES?"
 .db 0xFF         ; terminate
 
 linea16a:

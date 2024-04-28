@@ -1,0 +1,12 @@
+﻿; Antiguo sprite del Mosnter Truck, ahora es adonde estan ls rutinas por comer frutas
+
+frutasEspeciales:
+
+RET
+
+
+frutaUvasActivar:
+    ld a,(FrutaUvasVar)
+    inc a
+    ld (FrutaUvasVar),a
+RET

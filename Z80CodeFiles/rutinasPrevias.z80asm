@@ -312,6 +312,8 @@ MueveMapaIX:
     ;;; Comparacion 16 bits de HL y (ANCHO_MAPA-ANCHO_PANTALLA)
     ;ld a, h
     ;CP (ANCHO_MAPA_TILES-ANCHO_PANTALLA) / 256 ; Esta ANCHO_MAPA_TILES definido como constante
+    ; tengo que solo tendría sentido si tengo más de 256 bloques o sea, mas de 16 pantallas.
+    ; como no lo voy a tener, lo voy a comentar para saltarlo.
 
     ;PUSH HL
     ;LD HL, (ANCHO_MAPA_TILES)
@@ -322,6 +324,10 @@ MueveMapaIX:
     ;POP HL
 
     ;ret nz
+
+    ; Este seria como el caso de tener menos de 16 pantallas que tengo que resolver
+    ; Preguntar al creador, creo que seria un caso muy raro que casi nunca se daria.
+    ; Si tengo menos de 16 pantallas, el resultado siempre sera 0
     ;ld a, l
     ;CP (ANCHO_MAPA_TILES-ANCHO_PANTALLA) % 256
     ;ret z
