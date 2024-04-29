@@ -1,12 +1,21 @@
 ﻿; Antiguo sprite del Mosnter Truck, ahora es adonde estan ls rutinas por comer frutas
 
 frutasEspeciales:
-
+    ld a,(FrutaUvasVar)
+    cp 1
+    ret z   ; Si esta activo, vuelve, haciendo que se salte el retardo
+    inc b
+    halt
+    halt    
 RET
 
 
 frutaUvasActivar:
-    ld a,(FrutaUvasVar)
-    inc a
+    ld a,1
+    out ($fe), a
     ld (FrutaUvasVar),a
+
+    ld hl,(posUvasMapa)
+    dec hl
+    ld (hl),0
 RET

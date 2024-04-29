@@ -127,7 +127,6 @@ drawmg16_xloop:
     inc ix                    ; Apuntamos al siguiente byte del mapa
  
     cp 255                    ; Bloque especial a saltar: no se dibuja
-    ;cp 0
     jp z, drawmg16_next
 
 ; Aqui voy a meter la rutina para formar el mapa de colisiones
@@ -138,9 +137,14 @@ drawmg16_xloop:
     cp 8
     jp z, marcoMeta
 
+; Voy a meter aqui el codigo de las frutas Uvas
+    cp 9
+    jp z, marcoUvas
+
+
 	push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
-    LD A, $08
+    LD A, $01   ;marco con un 1 los bloques ocupados
     LD (DE), a  ;JM
     EXX
     pop AF
@@ -149,10 +153,20 @@ drawmg16_xloop:
 marcoMeta:
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
-    LD A, $09 ;Voy a marcar la Meta con el codigo 9
+    LD A, $08 ;Voy a marcar la Meta con el codigo 8
     LD (DE), a  ;JM
     EXX
     pop AF
+    jp sigoConElCodigoOriginal
+
+marcoUvas:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $09 ;Voy a marcar las Uvas con el codigo 9
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
     jp sigoConElCodigoOriginal
 
 marcoConCeros:
