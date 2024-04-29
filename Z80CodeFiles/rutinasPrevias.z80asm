@@ -133,6 +133,10 @@ drawmg16_xloop:
     cp 0
     jp z, marcoConCeros
 
+; Voy a meter aqui el codigo de la pared falsa
+    cp 7
+    jp z, marcoParedFalsa
+
 ; Voy a meter aqui el codigo de la META
     cp 8
     jp z, marcoMeta
@@ -157,6 +161,16 @@ marcoMeta:
     LD (DE), a  ;JM
     EXX
     pop AF
+    jp sigoConElCodigoOriginal
+
+marcoParedFalsa:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $07 ;Voy a marcar las Uvas con el codigo 9
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
     jp sigoConElCodigoOriginal
 
 marcoUvas:

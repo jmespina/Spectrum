@@ -359,6 +359,9 @@ parDerecha:
     ld a, (IX+0)
     ld c,a
 
+    cp 7 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, paredFalsaActivar
+
     cp 8 ; JM comparamos con 8, si es 8 es la Meta
     jp z, meta
 
@@ -442,6 +445,8 @@ seleccionarNivel:
     jp z, dos
     cp 10
     jp z, diez
+    cp 20
+    jp z, veinte
     jp seleccionarNivelFin
 
 noventaYNueve:
@@ -469,6 +474,14 @@ diez:
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel10
+    jp seleccionarNivelFin
+
+veinte:
+    ld a,32  ; definimos las dimensiones del nivel 10
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel20
     jp seleccionarNivelFin
 
 seleccionarNivelFin:

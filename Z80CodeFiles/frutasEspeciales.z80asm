@@ -19,3 +19,13 @@ frutaUvasActivar:
     dec hl
     ld (hl),0
 RET
+
+paredFalsaActivar:
+    ld a,1
+    out ($fe), a
+    ld (FrutaUvasVar),a
+
+    ld hl,(posUvasMapa)
+    dec hl
+    ld (hl),0
+RET
