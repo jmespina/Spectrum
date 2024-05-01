@@ -3,16 +3,35 @@
 frutasEspeciales:
     ld a,(FrutaUvasVar)
     cp 1
-    ret z   ; Si esta activo, vuelve, haciendo que se salte el retardo
-    inc b
+    jp nz, compruebo10   ; Si esta activo, vuelve, haciendo que se salte el retardo
     halt
     halt    
+    RET
+compruebo10:
+    cp 2
+    ret z
+    ld hl,(posUvasMapa)
+    dec hl
+    dec hl
+    dec hl    
+    ld (hl),11
 RET
 
 
 frutaUvasActivar:
     ld a,1
     out ($fe), a
+    ld (FrutaUvasVar),a
+
+    ld hl,(posUvasMapa)
+    dec hl
+    ld (hl),0
+RET
+
+chupeteActivar:
+    ld a,1
+    out ($fe), a
+    ld a,2
     ld (FrutaUvasVar),a
 
     ld hl,(posUvasMapa)

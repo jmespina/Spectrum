@@ -145,6 +145,10 @@ drawmg16_xloop:
     cp 9
     jp z, marcoUvas
 
+; Voy a meter aqui el codigo del chupete
+    cp 10
+    jp z, marcoChupete
+
 
 	push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
@@ -182,6 +186,17 @@ marcoUvas:
     pop AF
     ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
     jp sigoConElCodigoOriginal
+
+marcoChupete:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $10 ;Voy a marcar las Uvas con el codigo 10
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
+    jp sigoConElCodigoOriginal
+
 
 marcoConCeros:
     push AF
