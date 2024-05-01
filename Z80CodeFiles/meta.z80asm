@@ -42,6 +42,8 @@ loopRecorridoFinal:
     .loop 100
         halt
     .endl   
+    xor a
+    ld (FrutaUvasVar),a ; Inicializo a 0 las frutas especiales
     jp inicioNivel     
 
  

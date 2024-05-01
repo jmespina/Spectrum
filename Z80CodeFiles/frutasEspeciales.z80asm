@@ -9,14 +9,34 @@ frutasEspeciales:
     RET
 compruebo10:
     cp 2
-    ret z
-    ld hl,(posUvasMapa)
-    dec hl
-    dec hl
-    dec hl    
-    ld (hl),11
+    ret nz
+    CALL mostrarBebe
 RET
 
+mostrarBebe:
+    ld hl, bebeSprite ; codigo copiado de pintarBicho. Muestro al bebe y luego vuelvo a poner el mismo codigo para el personaje
+    ld (DS_SPRITES), hl
+    ld hl, bebeAtributos
+    ld (DS_ATTRIBS), hl
+    ld a, (DS_COORD_X)
+    dec a
+    dec a
+    dec a
+    ld (DS_COORD_X), a    
+    call DrawSprite_16x16_LD
+        
+    ; A partir de aqui restauro los datos del personaje
+    ld hl, bicho_gfx ; codigo copiado de pintarBicho. Muestro al bebe y luego vuelvo a poner el mismo codigo para el personaje
+    ld (DS_SPRITES), hl
+    ld hl, bicho_attrib
+    ld (DS_ATTRIBS), hl
+    ld a, (DS_COORD_X)
+    inc A
+    inc A
+    inc A
+    ld (DS_COORD_X), a
+    
+RET
 
 frutaUvasActivar:
     ld a,1
