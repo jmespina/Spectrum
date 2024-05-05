@@ -3,7 +3,7 @@
 frutasEspeciales:
     ld a,(FrutaUvasVar)
     cp 1
-    jp nz, compruebo10   ; Si esta activo, vuelve, haciendo que se salte el retardo
+    jp z, compruebo10   ; Si esta activo, vuelve, haciendo que se salte el retardo
     halt
     halt    
     RET

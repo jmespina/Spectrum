@@ -451,6 +451,12 @@ seleccionarNivel:
     jp z, dos
     cp 3
     jp z, tres
+    cp 4
+    jp z, cuatro
+    cp 5
+    jp z, cinco
+    cp 6
+    jp z, seis
     cp 10
     jp z, diez
     cp 20
@@ -458,7 +464,7 @@ seleccionarNivel:
     jp seleccionarNivelFin
 
 noventaYNueve:
-    jp tres
+    ;jp tres
     ld a,16  ; definimos las dimensiones del nivel 1
     ld (ANCHO_MAPA_TILES),a
     ld a,12
@@ -485,6 +491,15 @@ tres:
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel03
     jp seleccionarNivelFin
+cuatro:
+    ld hl, mapa_nivel04
+    jp seleccionarNivelFin
+cinco:
+    ld hl, mapa_nivel05
+    jp seleccionarNivelFin
+seis:
+    ld a, 10
+    ld (DM_NIVEL),a     ; continuamos en el nivel 10
 diez:
     ld a,60  ; definimos las dimensiones del nivel 10
     ld (ANCHO_MAPA_TILES),a
