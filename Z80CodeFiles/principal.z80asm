@@ -42,7 +42,8 @@ redraw:
     call DrawSprite_16x16_LD ; pintamos el bicho moviendose
     ;call ImpMap10x10 ; Imprimimos el mapa 10x10 (y lo borramos)
     halt
-    CALL frutasEspeciales
+    CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
+    CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
     ;halt   ya no metemos 3 retardos aqui porque lo hacemos en frutasEspeciales
     ;halt
     
@@ -459,9 +460,15 @@ seleccionarNivel:
     jp z, seis
     cp 10
     jp z, diez
+    cp 11
+    jp z, once
     cp 20
     jp z, veinte
-    jp seleccionarNivelFin
+
+; Si ha llegado aqui no tiene nivel definido, lo voy a mandar al nivel 1
+    ld a, 1
+    ld (DM_NIVEL),a
+    jp uno
 
 noventaYNueve:
     ;jp tres
@@ -507,7 +514,13 @@ diez:
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel10
     jp seleccionarNivelFin
-
+once:
+    ld a,80  ; definimos las dimensiones del nivel 11
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel11
+    jp seleccionarNivelFin
 veinte:
     ld a,32  ; definimos las dimensiones del nivel 10
     ld (ANCHO_MAPA_TILES),a

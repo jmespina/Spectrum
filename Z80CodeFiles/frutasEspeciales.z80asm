@@ -3,11 +3,14 @@
 frutasEspeciales:
     ld a,(FrutaUvasVar)
     cp 1
-    jp z, compruebo10   ; Si esta activo, vuelve, haciendo que se salte el retardo
+    jp z, frutasEspecialesFin   ; Si esta activo, vuelve, haciendo que se salte el retardo
     halt
     halt    
-    RET
-compruebo10:
+frutasEspecialesFin:   
+RET
+
+frutasEspeciales2:
+    ld a,(FrutaUvasVar)
     cp 2
     ret nz
     CALL mostrarBebe
