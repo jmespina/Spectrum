@@ -41,7 +41,7 @@ redraw:
     call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
     call DrawSprite_16x16_LD ; pintamos el bicho moviendose
     ;call ImpMap10x10 ; Imprimimos el mapa 10x10 (y lo borramos)
-    halt
+    ;halt
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
     ;halt   ya no metemos 3 retardos aqui porque lo hacemos en frutasEspeciales
@@ -88,19 +88,19 @@ leerJoystick: ; sacado de https://espamatica.com/0x0a-ensamblador-zx-spectrum-ma
     checkCtrl_Kempston_right:
     rra
     jr      nc, checkCtrl_Kempston_left
-    set     $00, d
+    set     $02, d
     checkCtrl_Kempston_left:
     rra
     jr      nc, checkCtrl_Kempston_abajo
-    set     $01, d
+    set     $03, d
     checkCtrl_Kempston_abajo:
     rra
     jr      nc, checkCtrl_Kempston_arriba
-    set     $02, d
+    set     $01, d
     checkCtrl_Kempston_arriba:
     rra
     jr      nc, checkCtrl_Kempston_final
-    set     $03, d
+    set     $00, d
 checkCtrl_Kempston_final:
     ld a,d
 RET
@@ -462,6 +462,8 @@ seleccionarNivel:
     jp z, diez
     cp 11
     jp z, once
+    cp 12
+    jp z, doce
     cp 20
     jp z, veinte
 
@@ -520,6 +522,13 @@ once:
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel11
+    jp seleccionarNivelFin
+doce:
+    ld a,80  ; definimos las dimensiones del nivel 12
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel12
     jp seleccionarNivelFin
 veinte:
     ld a,32  ; definimos las dimensiones del nivel 10
