@@ -149,6 +149,14 @@ drawmg16_xloop:
     cp 10
     jp z, marcoChupete
 
+; Voy a meter aqui el codigo del huevo frito 13
+    cp 13
+    jp z, marcoHuevoFrito
+
+; Voy a meter aqui el codigo del huevo frito 15
+    cp 15
+    jp z, marcoHuevoFrito
+
 
 	push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
@@ -197,6 +205,15 @@ marcoChupete:
     ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
     jp sigoConElCodigoOriginal
 
+marcoHuevoFrito:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $13 ;Voy a marcar el huevo frito con el codigo 13
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
+    jp sigoConElCodigoOriginal
 
 marcoConCeros:
     push AF

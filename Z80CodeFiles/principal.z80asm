@@ -332,9 +332,8 @@ podemosIrDer:
     add ix, de                ; IX = Inicio_Mapa + HL
     ld a, (IX+0)
     ld c,a
-    cp 0               ; comparamos con 0, si es 0 se puede mover.
-    ret nz
-
+    
+    
     ; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
     cp 8 ; JM comparamos con 8, si es 8 es la Meta
     jp z, meta
@@ -344,6 +343,12 @@ podemosIrDer:
 
     cp 10 ; JM comparamos con 10, si es 10 es el chupete
     jp z, chupeteActivar
+
+    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
+    jp z, teletransportar
+
+    cp 0               ; comparamos con 0, si es 0 se puede mover.
+    ret nz 
 
 parDerecha:
     ld hl, (DS_COORD_Y)  ; repetimos el inicio de la rutina por si los valores se han perdido
@@ -372,8 +377,11 @@ parDerecha:
     cp 9 ; JM comparamos con 9, si es 9 son las Uvas
     jp z, frutaUvasActivar
 
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
+    cp 10 ; JM comparamos con 10, si es 10 es el chupete
     jp z, chupeteActivar
+
+    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
+    jp z, teletransportar
 
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoDerecha
@@ -466,6 +474,8 @@ seleccionarNivel:
     jp z, doce
     cp 20
     jp z, veinte
+    cp 21
+    jp z,veintiuno
 
 ; Si ha llegado aqui no tiene nivel definido, lo voy a mandar al nivel 1
     ld a, 1
@@ -537,7 +547,13 @@ veinte:
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel20
     jp seleccionarNivelFin
-
+veintiuno:
+    ld a,48  ; definimos las dimensiones del nivel 10
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel21
+    jp seleccionarNivelFin
 seleccionarNivelFin:
     ld (DM_MAP), hl        
     ret

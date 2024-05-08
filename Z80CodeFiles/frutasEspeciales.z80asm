@@ -71,3 +71,8 @@ paredFalsaActivar:
     dec hl
     ld (hl),0
 RET
+
+teletransportar:
+    ld a,4
+    ld (DS_COORD_Y),a
+RET
