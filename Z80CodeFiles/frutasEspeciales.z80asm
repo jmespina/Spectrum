@@ -3,10 +3,17 @@
 frutasEspeciales:
     ld a,(FrutaUvasVar)
     cp 1
-    jp z, frutasEspecialesFin   ; Si esta activo, vuelve, haciendo que se salte el retardo
-    halt
-    halt    
-frutasEspecialesFin:   
+    ret  nz
+    ld hl,50004
+    .loop 16
+    ld a,(hl)
+    add a,128
+    ld (hl),a
+    inc hl
+    .endl            
+    xor a
+    ld (FrutaUvasVar),A
+    
 RET
 
 frutasEspeciales2:
