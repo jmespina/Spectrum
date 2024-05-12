@@ -42,6 +42,20 @@ loopRecorridoFinal:
     .loop 100
         halt
     .endl   
+
+    ld a,(FrutaUvasVar)    
+    cp 9 ; comprobamos si hemos cogido las uvas del flash
+    jp nz,loopRecorridoFinalFinal
+    ; Si llegamos aqui tenemos que reinicializar los atributos de las rocas
+    ld hl,rocasAtributos
+    .loop 28
+        ld a,(hl)
+        sub a,128
+        ld (hl),a
+        inc hl
+    .endl 
+
+loopRecorridoFinalFinal:
     xor a
     ld (FrutaUvasVar),a ; Inicializo a 0 las frutas especiales
     jp inicioNivel     
