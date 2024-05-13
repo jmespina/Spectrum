@@ -182,7 +182,7 @@ marcoParedFalsa:
     LD (DE), a  ;JM
     EXX
     pop AF
-    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
+    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las toque
     jp sigoConElCodigoOriginal
 
 marcoUvas:

@@ -54,7 +54,7 @@ bucle:
     call LEER_TECLADO          ; Leemos el estado de O, P, Q, A
     CP 0
     jp nz, meSaltoJoystick
-    ;CALL leerJoystick           ; leemos joystick
+    CALL leerJoystick           ; leemos joystick
 
 meSaltoJoystick:    
     bit 0, a                   ; Modificamos MAPX y MAPY segun OPQA
@@ -261,8 +261,30 @@ podemosIrAbajo:
     add ix, de                ; IX = Inicio_Mapa + HL
     
     ld a, (IX+0)
-    exx
-    ld c,a
+    exx ;Es necesario porque luego se machaca el valor de A y luego se vuelve a necesitar
+    ld c,a ; creo que no vale para nadap
+
+; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
+    cp 7 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, paredFalsaActivar
+
+    cp 8 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, meta
+
+    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
+    jp z, frutaUvasActivar
+
+    cp $10 ; JM comparamos con 10, si es 10 es el chupete
+    jp z, chupeteActivar
+                                                                                                                                          
+    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
+    jp z, teletransportar
+
+    ; para intentar que suena al chocar contra una pared    
+    cp 1
+    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
+    jp z, PlaySound
+
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     exx
     jp z, comprobarAbajoIzq
@@ -284,6 +306,28 @@ parAbajo:
     
     ld a, (IX+0)
     ld c,a
+
+; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
+    cp 7 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, paredFalsaActivar
+
+    cp 8 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, meta
+
+    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
+    jp z, frutaUvasActivar
+
+    cp $10 ; JM comparamos con 10, si es 10 es el chupete
+    jp z, chupeteActivar
+                                                                                                                                          
+    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
+    jp z, teletransportar
+
+    ; para intentar que suena al chocar contra una pared    
+    cp 1
+    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
+    jp z, PlaySound
+
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoAbajo
 ret
@@ -462,7 +506,8 @@ posUvasMapaC    DEFW   0
 seleccionarNivel:
     ld a, (DM_NIVEL)
     cp 99
-    jp z, noventaYNueve
+    ;jp z, noventaYNueve
+    jp z,veintidos
     cp 1
     jp z, uno
     cp 2
