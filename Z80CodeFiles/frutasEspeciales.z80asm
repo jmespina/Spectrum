@@ -1,4 +1,4 @@
-﻿; Antiguo sprite del Mosnter Truck, ahora es adonde estan ls rutinas por comer frutas
+﻿; Antiguo sprite del Monster Truck, ahora es adonde estan ls rutinas por comer frutas
 
 frutasEspeciales:
     ld a,(FrutaUvasVar)
@@ -11,8 +11,10 @@ frutasEspeciales:
         ld (hl),a
         inc hl
     .endl            
-    ld a,9 ; codigo de las uvas para indicar de que se han cogido
-    ld (FrutaUvasVar),A
+    xor a
+    ld (FrutaUvasVar),a
+    ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
+    ld (FrutaUvasReset),A
     
 RET
 

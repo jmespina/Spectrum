@@ -1,0 +1,121 @@
+﻿; Fichero adonde estan todas las rutinas de selección de nivel
+
+seleccionarNivel:
+    ld a, (DM_NIVEL)
+    cp 99
+    jp z, noventaYNueve
+    cp 1
+    jp z, uno
+    cp 2
+    jp z, dos
+    cp 3
+    jp z, tres
+    cp 4
+    jp z, cuatro
+    cp 5
+    jp z, cinco
+    cp 6
+    jp z, seis
+    cp 10
+    jp z, diez
+    cp 11
+    jp z, once
+    cp 12
+    jp z, doce
+    cp 20
+    jp z, veinte
+    cp 21
+    jp z,veintiuno
+    cp 22
+    jp z,veintidos
+
+; Si ha llegado aqui no tiene nivel definido, lo voy a mandar al nivel 1
+    ld a, 1
+    ld (DM_NIVEL),a
+    jp uno
+
+noventaYNueve:
+    ;jp tres
+    ld a,16  ; definimos las dimensiones del nivel 1
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+
+    ld hl, mapa_nivel99 ;cargamos mapa
+    jp seleccionarNivelFin
+
+
+uno:
+    ld a,48  ; definimos las dimensiones del nivel 1
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel01 ;cargamos mapa
+    jp seleccionarNivelFin
+dos:
+    ld hl, mapa_nivel02
+    jp seleccionarNivelFin
+tres:
+    ld a,48  ; definimos las dimensiones del nivel 1
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel03
+    jp seleccionarNivelFin
+cuatro:
+    ld hl, mapa_nivel04
+    jp seleccionarNivelFin
+cinco:
+    ld hl, mapa_nivel05
+    jp seleccionarNivelFin
+seis:
+    ld a, 10
+    ld (DM_NIVEL),a     ; continuamos en el nivel 10
+diez:
+    ld a,60  ; definimos las dimensiones del nivel 10
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel10
+    jp seleccionarNivelFin
+once:
+    ld a,80  ; definimos las dimensiones del nivel 11
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel11
+    jp seleccionarNivelFin
+doce:
+    ld a,80  ; definimos las dimensiones del nivel 12
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel12
+    jp seleccionarNivelFin
+veinte:
+    ld a,32  ; definimos las dimensiones del nivel 20
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel20
+    jp seleccionarNivelFin
+veintiuno:
+    ld a,48  ; definimos las dimensiones del nivel 21
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel21
+    jp seleccionarNivelFin
+veintidos:
+    ld a,80  ; definimos las dimensiones del nivel 22
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel22
+    jp seleccionarNivelFin
+
+seleccionarNivelFin:
+    ld (DM_MAP), hl        
+    ret
+
+
