@@ -129,6 +129,7 @@ drawmg16_xloop:
     cp 255                    ; Bloque especial a saltar: no se dibuja
     jp z, drawmg16_next
 
+    
 ; Aqui voy a meter la rutina para formar el mapa de colisiones
     cp 0
     jp z, marcoConCeros
@@ -148,6 +149,10 @@ drawmg16_xloop:
 ; Voy a meter aqui el codigo del chupete
     cp 10
     jp z, marcoChupete
+
+; Voy a meter aqui el codigo del platano
+    cp 11
+    jp z, marcoPlatano
 
 ; Voy a meter aqui el codigo del huevo frito 13
     cp 13
@@ -199,6 +204,16 @@ marcoChupete:
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
     LD A, $10 ;Voy a marcar las Uvas con el codigo 10
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
+    jp sigoConElCodigoOriginal
+
+marcoPlatano:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $11 ;Voy a marcar el platano Uvas con el codigo 11
     LD (DE), a  ;JM
     EXX
     pop AF

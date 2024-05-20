@@ -41,11 +41,9 @@ redraw:
     call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
     call DrawSprite_16x16_LD ; pintamos el bicho moviendose
     ;call ImpMap10x10 ; Imprimimos el mapa 10x10 (y lo borramos)
-    ;halt
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
-    ;halt   ;ya no metemos 3 retardos aqui porque lo hacemos en frutasEspeciales
-    ;halt
+    CALL meterRetardo
     
     
     
@@ -389,7 +387,10 @@ podemosIrDer:
 
     cp $10 ; JM comparamos con 10, si es 10 es el chupete
     jp z, chupeteActivar
-                                                                                                                                          
+    
+    cp $11 ; JM comparamos con 11, si es 11 es el chupete
+    jp z, platanoActivar
+                                                                                                                                      
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
 
@@ -430,6 +431,9 @@ parDerecha:
 
     cp $10 ; JM comparamos con 10, si es 10 es el chupete
     jp z, chupeteActivar
+
+    cp $11 ; JM comparamos con 11, si es 11 es el chupete
+    jp z, platanoActivar
 
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
@@ -515,4 +519,4 @@ posUvasMapa     DEFW   0
 #include "menu.z80asm"
 #include "meta.z80asm"
 #include "niveles.z80asm"
-
+#include "marcandoBloquesEspeciales.z80asm"

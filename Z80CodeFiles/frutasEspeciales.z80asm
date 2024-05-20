@@ -15,7 +15,16 @@ frutasEspeciales:
     ld (FrutaUvasVar),a
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A
-    
+RET
+
+meterRetardo:
+    ld a,(FrutaUvasReset)
+    cp 1
+    ret z
+     .loop 7
+        halt
+    .endl            
+   
 RET
 
 frutasEspeciales2:
@@ -47,7 +56,23 @@ mostrarBebe:
     inc A
     inc A
     ld (DS_COORD_X), a
-    
+RET
+
+frutasEspeciales3:
+    ld a,(FrutaUvasVar)
+    cp 3
+    ret  nz
+    ld hl,rocasAtributos
+    .loop 28
+        ld a,(hl)
+        add a,1
+        ld (hl),a
+        inc hl
+    .endl            
+    xor a
+    ld (FrutaUvasVar),a
+    ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
+    ld (FrutaUvasReset),A
 RET
 
 frutaUvasActivar:
@@ -79,6 +104,18 @@ paredFalsaActivar:
     ld hl,(posUvasMapa)
     dec hl
     ld (hl),0
+RET
+
+platanoActivar:
+    ld a,1
+    out ($fe), a
+    ld a,3
+    ld (FrutaUvasVar),a
+
+    ;ld hl,(posUvasMapa)
+    ;dec hl
+    ;ld (hl),0    
+    CALL frutasEspeciales3
 RET
 
 teletransportar:

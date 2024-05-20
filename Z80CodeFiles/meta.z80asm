@@ -44,11 +44,13 @@ loopRecorridoFinal:
     jp nz,loopRecorridoFinalFinal
     ; Si llegamos aqui tenemos que reinicializar los atributos de las rocas
     ld hl,rocasAtributos
+    ld de,rocasAtributosCopiaSeguridad
+    ; con los platanos no me vale una resta, tengo que copiar los atributos originales.
     .loop 28
-        ld a,(hl)
-        sub a,128
+        ld a,(de)
         ld (hl),a
         inc hl
+        inc de
     .endl 
 
 loopRecorridoFinalFinal:

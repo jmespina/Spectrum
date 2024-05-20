@@ -13,6 +13,7 @@
     <DisassAnn Include="Rom\ZxSpectrum48.disann" />
     <Z80Asm Include="DisassemblyFiles\ExportedCode.z80asm" />
     <Z80Asm Include="Z80CodeFiles\cadenasTexto.z80asm" />
+    <Z80Asm Include="Z80CodeFiles\marcandoBloquesEspeciales.z80asm" />
     <Z80Asm Include="Z80CodeFiles\niveles.z80asm" />
     <Z80Asm Include="Z80CodeFiles\meta.z80asm" />
     <Z80Asm Include="Z80CodeFiles\menu.z80asm" />
