@@ -170,7 +170,7 @@ leerEdadFin4:
 RET
 
 posiciona:
-     push	de	; Preserva el valor de DE
+    push	de	; Preserva el valor de DE
     push	hl	; Preserva el valor de HL
     call	$0a23	; Llama a la rutina de la ROM
     pop		hl	; Recupera el valor de HL

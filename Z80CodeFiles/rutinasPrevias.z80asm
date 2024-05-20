@@ -6,7 +6,7 @@
 
 
 
-; Rutinas de https://wiki.speccy.org/cursos/ensamblador/teclado
+; Rutina de https://wiki.speccy.org/cursos/ensamblador/teclado
 
 
 ;-------------------------------------------------------------
@@ -52,7 +52,7 @@ Control_no_left:
 
 
 
-; Rutinas de https://wiki.speccy.org/cursos/ensamblador/gfx5_mapeados 
+; Rutina de https://wiki.speccy.org/cursos/ensamblador/gfx5_mapeados 
 
  
 ;---------------------------------------------------------------
@@ -363,6 +363,8 @@ drawmg16_next:
     ret
 
 
+; Rutina de https://wiki.speccy.org/cursos/ensamblador/gfx5_mapeados
+
 ;-------------------------------------------------------------
 ; Incrementar la variable DM_MAPX para scrollear a la derecha.
 ;-------------------------------------------------------------
@@ -447,6 +449,7 @@ Map_Dec_Y:
     ld (DM_MAPY), hl           ; No es cero, podemos decrementar
     ret
 
+; rutina de https://wiki.speccy.org/cursos/ensamblador/gfx3_sprites_lowres
 
 ;-------------------------------------------------------------
 ; DrawSprite_16x16_LD:
@@ -604,6 +607,8 @@ DS_NUMSPRM   DEFB   0
 DS_WIDTHM    DEFB   0
 DS_HEIGHTM   DEFB   0
 
+
+;Rutina de https://wiki.speccy.org/cursos/ensamblador/gfx3_sprites_lowres#rutina-generica-trazado-de-sprites-multicaracter
 ;-------------------------------------------------------------
 ; DrawSprite_MxN_LD:
 ; Imprime un sprite de MxN pixeles con o sin atributos.
@@ -803,7 +808,7 @@ drawsp_width_by_height DW 0
 
 
 
-; de https://espamatica.com/0x09-ensamblador-zx-spectrum-marciano-partida/
+; Rutina de https://espamatica.com/0x09-ensamblador-zx-spectrum-marciano-partida/
 ; -----------------------------------------------------------------------------
 ; Pinta cadenas.
 ;
@@ -821,7 +826,7 @@ jp      PrintStringFF   ; Bucle hasta que termine de pintar la cadena
 ret
 
 
-; sacado de https://espamatica.com/0x0a-ensamblador-zx-spectrum-pong-sonido/#Sonido
+; Rutina de https://espamatica.com/0x0a-ensamblador-zx-spectrum-pong-sonido/#Sonido
 ; -----------------------------------------------------------------------------
 ; Sound
 ; Fichero con los sonidos
