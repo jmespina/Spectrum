@@ -421,12 +421,12 @@ Map_Inc_Y:
     ld hl, (DM_MAPY)
  
     ;;; Comparacion 16 bits de HL y (ALTO_MAPA-ALTO_PANTALLA)
-    ld a, h
-    CP (ALTO_MAPA_TILES-ALTO_PANTALLA) / 256
-    ret nz
-    ld a, l
-    CP (ALTO_MAPA_TILES-ALTO_PANTALLA) % 256
-    ret z
+    ;ld a, h
+    ;CP (ALTO_MAPA_TILES-ALTO_PANTALLA) / 256
+    ;ret nz
+    ;ld a, l
+    ;CP (ALTO_MAPA_TILES-ALTO_PANTALLA) % 256
+    ;ret z
  
     inc hl                     ; No eran iguales, podemos incrementar.
     ld (DM_MAPY), hl

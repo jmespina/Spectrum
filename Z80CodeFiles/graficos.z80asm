@@ -83,6 +83,10 @@ rocasSprites:
 	DEFB	255,255,255,255,255,255,255,255, 31,251,255,255,255,222,227,223  ; roca 9 (sprite 18)
 	DEFB	255,255,255,255,255,251,255,255,249,159,223,159,255,255,255,251
 
+	DEFB	  3,224,  4, 80, 11,136, 16,  4, 40,100, 36,148, 37, 24, 41,240 ; Seta (sprite 19)
+	DEFB	 62, 64,  2, 64,  2, 64,  2, 32, 4, 32,  4, 32, 12, 32,  7,192
+
+
 
 rocasAtributos:
  	DEFB   0,  0,  0,  0,  1,  65, 1, 1, 65, 65,  1, 1, 65, 65, 65, 65 ;fondos azules
@@ -98,6 +102,7 @@ rocasAtributos:
 	DEFB	 71, 71, 71,71 ; huevos4 atributos
 	DEFB	65,81,81,65 ; roca 8 atributos
 	DEFB	89,65,65,89	; roca 9 atributos
+	DEFB	 68, 68, 68, 68 ; seta atributos
 
 
 rocasAtributosCopiaSeguridad:

@@ -22,7 +22,7 @@ meterRetardo:
     cp 1
     ret z
      .loop 7
-        halt
+        halt   
     .endl            
    
 RET

@@ -43,7 +43,7 @@ redraw:
     ;call ImpMap10x10 ; Imprimimos el mapa 10x10 (y lo borramos)
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
-    CALL meterRetardo
+    ;CALL meterRetardo
     
     
     
@@ -331,7 +331,7 @@ parAbajo:
 ret
 
 moverBichoAbajo:
-    ;CALL Map_Inc_Y
+    CALL Map_Inc_Y
     ld		a, (DS_COORD_Y)
     ld      c,a
 	inc c ;
