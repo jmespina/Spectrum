@@ -50,11 +50,16 @@ redraw:
 bucle:
     xor a
     call LEER_TECLADO          ; Leemos el estado de O, P, Q, A
-    CP 0
-    jp nz, meSaltoJoystick
-    CALL leerJoystick           ; leemos joystick
+;    push AF
+;    ld a,(joystickDesactivado)
+;    CP 1
+    CP 0    
+    jp z, meSaltoJoystick
+;    pop AF
+    ;CALL leerJoystick           ; leemos joystick
 
 meSaltoJoystick:    
+    ;pop AF
     bit 0, a                   ; Modificamos MAPX y MAPY segun OPQA
     jr z, nopulsada_q          ; Ya no hace lo descrito arriba sino que va a mis rutinas 
     ;call Map_Dec_Y            ; para comprobar si se puede mover o no
@@ -331,7 +336,11 @@ parAbajo:
 ret
 
 moverBichoAbajo:
+    ld a, (DM_NIVEL)    ;vamos a ver en que nivel estamos
+    cp 24
+    jp nz,no24
     CALL Map_Inc_Y
+no24:
     ld		a, (DS_COORD_Y)
     ld      c,a
 	inc c ;
@@ -365,7 +374,7 @@ podemosIrDer:
     ld de, ANCHO_PANTALLA
     
     call MULT_HL_POR_DE       ; HL = (ANCHO_MAPA * MAPA_Y)
-    ld bc, (DS_COORD_X)
+    LD BC, (DS_COORD_X)    
     ld b,0  ; ponemos b a 0 porque sino el calculo se sale de madre.
     INC c ;porque vamos a ver que hay a la derecha
     INC C
@@ -388,7 +397,7 @@ podemosIrDer:
     cp $10 ; JM comparamos con 10, si es 10 es el chupete
     jp z, chupeteActivar
     
-    cp $11 ; JM comparamos con 11, si es 11 es el chupete
+    cp $11 ; JM comparamos con 11, si es 11 es el platano
     jp z, platanoActivar
                                                                                                                                       
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
@@ -506,7 +515,7 @@ DS_NUMSPR   DEFB   0
 FrutaUvasVar    DEFB 0      ; indica que hay que aplicar algún efecto
 FrutaUvasReset  DEFB 0      ; indica que hay que resetear un efecto cuando empiece un nuevo nivel
 posUvasMapa     DEFW   0
-
+joystickDesactivado DEFB 0      ; para controlar el joystick
 
 
  

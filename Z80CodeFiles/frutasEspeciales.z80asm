@@ -119,6 +119,23 @@ platanoActivar:
 RET
 
 teletransportar:
+    ld a, (DM_NIVEL)    ;vamos a ver en que nivel estamos
+    cp 21
+    jp nz, teletransportarNivel23
     ld a,4
     ld (DS_COORD_Y),a
+RET
+
+teletransportarNivel23:
+    ld hl, (DS_COORD_Y)
+    ld bc, (DS_COORD_X)
+    ld a,c
+    add a,8
+    ld c,a
+    ld (DS_COORD_X),bc
+    ld hl, (DM_MAPX)
+    inc hl                     ; No eran iguales, podemos incrementar.
+    
+    ld (DM_MAPX), hl
+    halt
 RET

@@ -83,5 +83,10 @@ linea17a:
 .db 0xFF         ; terminate
 
 linea18a:
+;.dm "2 DESACTIVAR KEMPSTON   "
 .dm "5 A"
+.db 0xFF         ; terminate
+
+rotulolinea19:
+.dm "2 DESACTIVAR KEMPSTON"
 .db 0xFF         ; terminate

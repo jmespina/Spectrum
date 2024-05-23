@@ -106,6 +106,14 @@ menu:
     ld hl,linea16b
     CALL PrintStringFF
 
+    ;ld a,1;	      ; upper screen
+	;call #1601    ; open the channel
+
+    ;ld      bc, $0518
+    ;CALL posiciona     
+    ;ld hl,rotulolinea19
+    ;CALL PrintStringFF
+
     CALL leerEdad
 
 RET
@@ -140,7 +148,7 @@ leerEdadFin:
 
     ld b,2 ; cargo en b el valor 2
     cp b
-    ret z ; Si b vale 2, volvemos
+    jp z, leerEdadFin2 ; vamos a desactivar joystick
 
     ld b,3 ; cargo en b el valor 3
     cp b
@@ -158,6 +166,12 @@ leerEdadFin1:
     ld a,99 ; Si la edad es 1, vamos al nivel secreto de testeo, 99
     ld (DM_NIVEL),a
 RET
+
+leerEdadFin2:
+    ld a,1 ; poniendolo a 1 desactivamos el joystick
+    ld (joystickDesactivado),a
+RET
+
 
 leerEdadFin3:
     ld a,1 ; Si la edad es 3, vamos al nivel 1
