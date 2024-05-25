@@ -112,261 +112,6 @@ checkCtrl_Kempston_final:
     ld a,d
 RET
 
-podemosIrArriba:
-    ld HL, (DS_COORD_Y)
-    DEC L
-    SRL L
-    LD DE, ANCHO_PANTALLA
-
-    CALL MULT_HL_POR_DE
-    LD BC, (DS_COORD_X)
-    LD B,0
-    SRL C ;en C tengo la posición del bicho. Como la posicion del bicho va en bloques de 8x8 y el mapa de colisiones va de 16x16, la tengo que dividir por dos
-    jp nc, parArriba ;segun el bit de carry salto o no
-
-    ;consideramos que C era impar
-    INC C ;si llega aqui es impar, deberia mirar a izq y derecha
-
-    ADD HL,BC  ;si salta continua la ejecución normal del programa
-    EX DE,HL
-    LD IX,(DM_MAP10x10)
-    ADD IX,DE
-
-    LD A,(IX+0)
-    EXX
-    LD C,A
-    CP 0
-    EXX
-    jp z, comprobarArribaIzq
-RET
-
-comprobarArribaIzq:
-    dec C
-parArriba: ;si C era par no hacemos nada
-    ld HL,(DS_COORD_Y)
-    DEC HL
-    SRL L
-    LD DE,ANCHO_PANTALLA
-
-    CALL MULT_HL_POR_DE
-    ADD HL,BC
-    EX DE,HL
-    LD IX,(DM_MAP10x10)
-    ADD IX,DE
-
-    LD A,(IX+0)
-    LD C,A
-    CP 0
-    jp z, moverBichoArriba
-    
-
-RET
-
-moverBichoArriba:
-    ld		a, (DS_COORD_Y)
-    ld      c,a
-    cp 0
-    ret z
-	dec c ;
-    ld      a,c
-    ld		(DS_COORD_Y), a
-RET
-
-podemosIrIzq:
-    ld HL, (DS_COORD_Y)
-    SRL L
-    jp nc, parIzquierda   ; si es par, funciona bien
-                        ; ahora es impar y debe mirar abajo
-    INC L    
-    ld DE, ANCHO_PANTALLA
-    CALL MULT_HL_POR_DE                                                   
-    
-    LD BC, (DS_COORD_X)
-    LD B,0
-    DEC C
-    SRL C
-    ADD HL,BC
-    EX DE,HL
-    LD IX, (DM_MAP10x10)
-    ADD IX,DE
-    LD A, (IX+0)
-    LD C,A
-    CP 0
-    ret nz
-
-parIzquierda:
-    ld hl, (DS_COORD_Y)  ; repetimos el inicio de la rutina por si los valores se han perdido
-    SRL L   ; ahora si es impar, mira arriba
-    ld de, ANCHO_PANTALLA
-    
-    call MULT_HL_POR_DE       ; HL = (ANCHO_MAPA * MAPA_Y)
-    ld bc, (DS_COORD_X)
-    ld b,0  ; ponemos b a 0 porque sino el calculo se sale de madre.
-    DEC c ;porque vamos a ver que hay a la izq
-    SRL C
-    add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
-    ex de, hl
-    LD IX, (DM_MAP10x10)   
-    add ix, de                ; IX = Inicio_Mapa + HL
-    ld a, (IX+0)
-    ld c,a
-    cp 0               ; comparamos con 0, si es 0 se puede mover.
-    jp z, moverBichoIzq  
-RET
-
-moverBichoIzq:
-    ld		a, (DS_COORD_X)
-    ld      c,a
-
-    ld      a, LIMITE_IZQUIERDA + $01 
-    sub     c ;    
-    jp z, mueveMapaDX
-    ret z
-
-    dec c
-    ld a,c
-    ld		(DS_COORD_X),a
-RET
-
-;-------------------------------------------------------------
-; Incrementar la variable DM_MAPX para scrollear a la derecha.
-;-------------------------------------------------------------
-MueveMapaDX:
-    ld hl, (DM_MAPX)
-    ld a, h
-    and a
-    jr nz, mapdecx_doit        ; Verificamos que DM_MAPX no sea 0
-    ld a, l
-    and a
-    ret z
-    mapdecx_doit:
-    dec hl
-    ld (DM_MAPX), hl           ; No es cero, podemos decrementar
-    
-RET
-
-podemosIrAbajo:
-	; vamos a implementar comprobacion antes de ir abajo
-	ld hl, (DS_COORD_Y)
-    SRL l
-    INC hl
-    ld de, ANCHO_PANTALLA
-    
-    call MULT_HL_POR_DE       ; HL = (ANCHO_MAPA * MAPA_Y)
-    ld bc, (DS_COORD_X)
-    ld b,0  ; ponemos b a 0 porque sino el calculo se sale de madre.
-    SRL c ; dividimos por 2
-    jp nc, parAbajo ;segun el bit de carry salto o no
-
-    INC C ;si llega aqui es impar, deberia mirar a izq y derecha
-            ; con el inc mira a la derecha y falla
-            ; asi que voy a duplicar el codigo y luego luego mira a la izquierda
-    add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
-    ex de, hl
-    LD IX, (DM_MAP10x10)   
-    add ix, de                ; IX = Inicio_Mapa + HL
-    
-    ld a, (IX+0)
-    exx ;Es necesario porque luego se machaca el valor de A y luego se vuelve a necesitar
-    ld c,a ; creo que no vale para nadap
-
-; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
-    cp 7 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, paredFalsaActivar
-
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-                                                                                                                                          
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    ; para intentar que suena al chocar contra una pared    
-    cp 1
-    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    jp z, PlaySound
-
-    cp 0               ; comparamos con 0, si es 0 se puede mover.
-    exx
-    jp z, comprobarAbajoIzq
-    RET
-
-comprobarAbajoIzq:
-    dec c
-parAbajo:    
-	ld hl, (DS_COORD_Y)
-    SRL l
-    INC hl
-    ld de, ANCHO_PANTALLA
-    
-    call MULT_HL_POR_DE
-    add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
-    ex de, hl
-    LD IX, (DM_MAP10x10)   
-    add ix, de                ; IX = Inicio_Mapa + HL
-    
-    ld a, (IX+0)
-    ld c,a
-
-; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
-    cp 7 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, paredFalsaActivar
-
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-                                                                                                                                          
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    ; para intentar que suena al chocar contra una pared    
-    cp 1
-    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    jp z, PlaySound
-
-    cp 0               ; comparamos con 0, si es 0 se puede mover.
-    jp z, moverBichoAbajo
-ret
-
-moverBichoAbajo:
-    ld a, (DM_NIVEL)    ;vamos a ver en que nivel estamos
-    cp 24
-    jp nz,no24
-    CALL Map_Inc_Y
-no24:
-    ld		a, (DS_COORD_Y)
-    ld      c,a
-	inc c ;
-    ld      a,c
-    ld		(DS_COORD_Y), a
-ret
-
-
-moverBichoDerecha:
-    
-    ld		a, (DS_COORD_X)
-    ld      c,a
-
-    ld      a, LIMITE_DERECHA + $01 
-    sub     c ;    
-    jp z, MueveMapaIX
-   
-    inc c ;
-    ld      a,c
-    ld		(DS_COORD_X), a
-    
-RET 
-
 podemosIrDer:                  
 
     ld hl, (DS_COORD_Y)
@@ -462,11 +207,301 @@ parDerecha:
     call	PlaySound
 RET
 
+
+moverBichoDerecha:
+    
+    ld		a, (DS_COORD_X)
+    ld      c,a
+
+    ld      a, LIMITE_DERECHA + $01 
+    sub     c ;    
+    jp z, MueveMapaIX
+   
+    inc c ;
+    ld      a,c
+    ld		(DS_COORD_X), a
+    
+RET 
+
+podemosIrAbajo:
+	; vamos a implementar comprobacion antes de ir abajo
+	ld hl, (DS_COORD_Y)
+    SRL l
+    INC hl
+    ld de, ANCHO_PANTALLA
+    
+    call MULT_HL_POR_DE       ; HL = (ANCHO_MAPA * MAPA_Y)
+    ld bc, (DS_COORD_X)
+    ld b,0  ; ponemos b a 0 porque sino el calculo se sale de madre.
+    SRL c ; dividimos por 2
+    jp nc, parAbajo ;segun el bit de carry salto o no
+
+    INC C ;si llega aqui es impar, deberia mirar a izq y derecha
+            ; con el inc mira a la derecha y falla
+            ; asi que voy a duplicar el codigo y luego luego mira a la izquierda
+    add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
+    ex de, hl
+    LD IX, (DM_MAP10x10)   
+    add ix, de                ; IX = Inicio_Mapa + HL
+    
+    ld a, (IX+0)
+    exx ;Es necesario porque luego se machaca el valor de A y luego se vuelve a necesitar
+    ld c,a ; creo que no vale para nadap
+
+; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
+    cp 7 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, paredFalsaActivar
+
+    cp 8 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, meta
+
+    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
+    jp z, frutaUvasActivar
+
+    cp $10 ; JM comparamos con 10, si es 10 es el chupete
+    jp z, chupeteActivar
+                                                                                                                                          
+    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
+    jp z, teletransportar
+
+    ; para intentar que suena al chocar contra una pared    
+    cp 1
+    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
+    jp z, PlaySound
+
+    cp 0               ; comparamos con 0, si es 0 se puede mover.
+    exx
+    jp z, comprobarAbajoIzq
+    RET
+
+comprobarAbajoIzq:
+    dec c
+parAbajo:    
+	ld hl, (DS_COORD_Y)
+    SRL l
+    INC hl
+    ld de, ANCHO_PANTALLA
+    
+    call MULT_HL_POR_DE
+    add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
+    ex de, hl
+    LD IX, (DM_MAP10x10)   
+    add ix, de                ; IX = Inicio_Mapa + HL
+    
+    ld a, (IX+0)
+    ld c,a
+
+; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
+    cp 7 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, paredFalsaActivar
+
+    cp 8 ; JM comparamos con 8, si es 8 es la Meta
+    jp z, meta
+
+    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
+    jp z, frutaUvasActivar
+
+    cp $10 ; JM comparamos con 10, si es 10 es el chupete
+    jp z, chupeteActivar
+                                                                                                                                          
+    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
+    jp z, teletransportar
+
+    ; para intentar que suena al chocar contra una pared    
+    cp 1
+    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
+    jp z, PlaySound
+
+    cp 0               ; comparamos con 0, si es 0 se puede mover.
+    jp z, moverBichoAbajo
+ret
+
+moverBichoAbajo:
+    ld hl,DM_NIVEL
+    ld a, (DM_NIVEL)    ;vamos a ver en que nivel estamos
+    cp 24
+    jp nz,noEsNivel24
+    ld		a, (DS_COORD_Y)
+    ld      c,a
+
+    ld A, LIMITE_INFERIOR + $01
+    sub C
+    jp z, Map_Inc_Y
+
+	inc c 
+    ld      a,c
+    ld		(DS_COORD_Y), a
+RET 
+    
+noEsNivel24:
+    ld		a, (DS_COORD_Y)
+    ld      c,a
+	inc c ;
+    ld      a,c
+    ld		(DS_COORD_Y), a
+ret
+
+
+
+
+podemosIrIzq:
+    ld HL, (DS_COORD_Y)
+    SRL L
+    jp nc, parIzquierda   ; si es par, funciona bien
+                        ; ahora es impar y debe mirar abajo
+    INC L    
+    ld DE, ANCHO_PANTALLA
+    CALL MULT_HL_POR_DE                                                   
+    
+    LD BC, (DS_COORD_X)
+    LD B,0
+    DEC C
+    SRL C
+    ADD HL,BC
+    EX DE,HL
+    LD IX, (DM_MAP10x10)
+    ADD IX,DE
+    LD A, (IX+0)
+    LD C,A
+    CP 0
+    ret nz
+
+parIzquierda:
+    ld hl, (DS_COORD_Y)  ; repetimos el inicio de la rutina por si los valores se han perdido
+    SRL L   ; ahora si es impar, mira arriba
+    ld de, ANCHO_PANTALLA
+    
+    call MULT_HL_POR_DE       ; HL = (ANCHO_MAPA * MAPA_Y)
+    ld bc, (DS_COORD_X)
+    ld b,0  ; ponemos b a 0 porque sino el calculo se sale de madre.
+    DEC c ;porque vamos a ver que hay a la izq
+    SRL C
+    add hl, bc                ; HL = MAPA_X + (ANCHO_MAPA * MAPA_Y)
+    ex de, hl
+    LD IX, (DM_MAP10x10)   
+    add ix, de                ; IX = Inicio_Mapa + HL
+    ld a, (IX+0)
+    ld c,a
+    cp 0               ; comparamos con 0, si es 0 se puede mover.
+    jp z, moverBichoIzq  
+RET
+
+moverBichoIzq:
+    ld		a, (DS_COORD_X)
+    ld      c,a
+
+    ld      a, LIMITE_IZQUIERDA + $01 
+    sub     c ;    
+    jp z, mueveMapaDX
+    ret z
+
+    dec c
+    ld a,c
+    ld		(DS_COORD_X),a
+RET
+
+podemosIrArriba:
+    ld HL, (DS_COORD_Y)
+    DEC L
+    SRL L
+    LD DE, ANCHO_PANTALLA
+
+    CALL MULT_HL_POR_DE
+    LD BC, (DS_COORD_X)
+    LD B,0
+    SRL C ;en C tengo la posición del bicho. Como la posicion del bicho va en bloques de 8x8 y el mapa de colisiones va de 16x16, la tengo que dividir por dos
+    jp nc, parArriba ;segun el bit de carry salto o no
+
+    ;consideramos que C era impar
+    INC C ;si llega aqui es impar, deberia mirar a izq y derecha
+
+    ADD HL,BC  ;si salta continua la ejecución normal del programa
+    EX DE,HL
+    LD IX,(DM_MAP10x10)
+    ADD IX,DE
+
+    LD A,(IX+0)
+    EXX
+    LD C,A
+    CP 0
+    EXX
+    jp z, comprobarArribaIzq
+RET
+
+comprobarArribaIzq:
+    dec C
+parArriba: ;si C era par no hacemos nada
+    ld HL,(DS_COORD_Y)
+    DEC HL
+    SRL L
+    LD DE,ANCHO_PANTALLA
+
+    CALL MULT_HL_POR_DE
+    ADD HL,BC
+    EX DE,HL
+    LD IX,(DM_MAP10x10)
+    ADD IX,DE
+
+    LD A,(IX+0)
+    LD C,A
+    CP 0
+    jp z, moverBichoArriba
+    
+
+RET
+
+moverBichoArriba:
+    ld a, (DM_NIVEL)    ;vamos a ver en que nivel estamos
+    cp 24
+    jp nz,noEsNivel24Arriba
+    ld		a, (DS_COORD_Y)
+    ld      c,a
+    
+    ld A,LIMITE_SUPERIOR + $01
+    sub C
+    jp z, Map_Dec_Y
+	
+    dec c ;
+    ld      a,c
+    ld		(DS_COORD_Y), a
+RET
+
+noEsNivel24Arriba:
+    ld		a, (DS_COORD_Y)
+    ld      c,a
+    cp 0
+    ret z
+	dec c ;
+    ld      a,c
+    ld		(DS_COORD_Y), a
+
+RET
+
+;-------------------------------------------------------------
+; Incrementar la variable DM_MAPX para scrollear a la derecha.
+;-------------------------------------------------------------
+MueveMapaDX:
+    ld hl, (DM_MAPX)
+    ld a, h
+    and a
+    jr nz, mapdecx_doit        ; Verificamos que DM_MAPX no sea 0
+    ld a, l
+    and a
+    ret z
+    mapdecx_doit:
+    dec hl
+    ld (DM_MAPX), hl           ; No es cero, podemos decrementar
+    
+RET
+
+
+
+
 ; Definimos los limites, cuando se alcance se pondra en marcha el scroll
 LIMITE_IZQUIERDA:	EQU $01
 LIMITE_DERECHA:     EQU $11     ;Con un valor par puede que se coma bloques
 LIMITE_SUPERIOR:    EQU $01
-LIMITE_INFERIOR:    EQU $01
+LIMITE_INFERIOR:    EQU $13
 
 
  
