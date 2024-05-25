@@ -127,15 +127,29 @@ teletransportar:
 RET
 
 teletransportarNivel23:
-    ld hl, (DS_COORD_Y)
-    ld bc, (DS_COORD_X)
-    ld a,c
-    add a,8
-    ld c,a
-    ld (DS_COORD_X),bc
-    ld hl, (DM_MAPX)
-    inc hl                     ; No eran iguales, podemos incrementar.
+; Tenemos dos teletransportadores y tenemos que decidir si mandar abajo o arriba    
+    ld HL, (DS_COORD_Y)
+    LD A,L
+    ; If A < N, then C flag is set.
+    ; If A >= N, then C flag is reset.
+    CP 5
+    JP nc,teleN23abajo
+    ld a,9
+    JP teleN23Fin
+teleN23abajo:
+    ld a,14    
+teleN23Fin:
+    ld L,A
+    ld (DS_COORD_Y),HL
+    ;ld bc, (DS_COORD_X)
+    ;ld a,c
+    ;INC A
+    ;INC A
+    ;ld c,a
+    ;ld (DS_COORD_X),bc
     
-    ld (DM_MAPX), hl
-    halt
+RET
+
+setas:
+    jp inicioNivel    
 RET

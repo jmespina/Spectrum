@@ -20,6 +20,9 @@ bucleMenu:
     jp z, bucleMenu ; Si ha cambiado el nivel, nos salimos del bucle y empieza el juego
 
 inicioNivel:
+    .loop 20
+        halt
+    .endl        
 	LD HL, mapa_pantalla16x12 ;JM
     LD (DM_MAP10x10), HL  
     ld a, ANCHO_PANTALLA
@@ -215,7 +218,7 @@ moverBichoIzq:
     ld		a, (DS_COORD_X)
     ld      c,a
 
-    ld      a, SHIP_TOP_L + $01 
+    ld      a, LIMITE_IZQUIERDA + $01 
     sub     c ;    
     jp z, mueveMapaDX
     ret z
@@ -354,7 +357,7 @@ moverBichoDerecha:
     ld		a, (DS_COORD_X)
     ld      c,a
 
-    ld      a, SHIP_TOP_R + $01 
+    ld      a, LIMITE_DERECHA + $01 
     sub     c ;    
     jp z, MueveMapaIX
    
@@ -403,6 +406,9 @@ podemosIrDer:
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
 
+    cp $19 ; JM comparamos con 19, si es 19 es la seta, vuelva al inicio
+    jp z, setas
+
     ; para intentar que suena al chocar contra una pared    
     cp 1
     ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
@@ -447,14 +453,20 @@ parDerecha:
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
 
+    cp $19 ; JM comparamos con 19, si es 19 es la seta, vuelva al inicio
+    jp z, setas
+
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoDerecha
     ld		a, $03   ; si llegamos aqui es que habia un bloque y que se emita un sonido
     call	PlaySound
 RET
 
-SHIP_TOP_L:	EQU $01
-SHIP_TOP_R: EQU $11     ;Con un valor par puede que se coma bloques
+; Definimos los limites, cuando se alcance se pondra en marcha el scroll
+LIMITE_IZQUIERDA:	EQU $01
+LIMITE_DERECHA:     EQU $11     ;Con un valor par puede que se coma bloques
+LIMITE_SUPERIOR:    EQU $01
+LIMITE_INFERIOR:    EQU $01
 
 
  

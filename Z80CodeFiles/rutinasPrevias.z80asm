@@ -162,6 +162,10 @@ drawmg16_xloop:
     cp 15
     jp z, marcoHuevoFrito
 
+; Voy a meter aqui el codigo de la seta 19
+    cp 19
+    jp z, marcoSeta
+
 
 	push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
@@ -228,6 +232,16 @@ marcoHuevoFrito:
     EXX
     pop AF
     ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
+    jp sigoConElCodigoOriginal
+
+marcoSeta:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $19 ;Voy a marcar la seta con el codigo 19
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ;ld (posUvasMapa),ix No lo necesito, que no se borren nunca
     jp sigoConElCodigoOriginal
 
 marcoConCeros:
