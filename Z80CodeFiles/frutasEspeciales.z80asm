@@ -75,6 +75,40 @@ frutasEspeciales3:
     ld (FrutaUvasReset),A
 RET
 
+CONTADOR_DE_FLORES  DEFB   8
+
+frutasEspeciales4:
+    ld a,(FrutaUvasVar)
+    cp 4
+    ret  nz
+    LD A,(CONTADOR_DE_FLORES)
+    cp 0
+    ret z
+    dec A
+    LD (CONTADOR_DE_FLORES),A
+    ld hl,mapa_nivel24
+    .loop 100 ;2880
+        CALL cambiarFlor
+        ld de, (DS_COORD_Y)
+        add hl,de
+        ;ld de, (DS_COORD_X)
+        ;add hl,de
+        ld e,25
+        add hl,de
+        ;.loop 28
+        ;    inc hl
+        ;.endl
+    .endl            
+    
+    ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
+    ld (FrutaUvasReset),A
+RET
+
+cambiarFlor:
+    ld a,20 
+    ld (hl),a        
+RET    
+
 frutaUvasActivar:
     ld a,1
     out ($fe), a
@@ -116,6 +150,17 @@ platanoActivar:
     ;dec hl
     ;ld (hl),0    
     CALL frutasEspeciales3
+RET
+
+peraActivar:
+    ld a,1
+    out ($fe), a
+    ld a,4
+    ld (FrutaUvasVar),a
+
+    ld hl,(posUvasMapa)
+    dec hl
+    ld (hl),0
 RET
 
 teletransportar:

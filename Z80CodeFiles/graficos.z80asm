@@ -86,6 +86,10 @@ rocasSprites:
 	DEFB	  3,224,  4, 80, 11,136, 16,  4, 40,100, 36,148, 37, 24, 41,240 ; Seta (sprite 19)
 	DEFB	 62, 64,  2, 64,  2, 64,  2, 32, 4, 32,  4, 32, 12, 32,  7,192
 
+	DEFB	  1,192,  2, 32,  4, 16, 52, 16,76, 22,129,201,130, 33,132, 17	; Flor (sprite 20)
+	DEFB	132, 17,100, 17, 26, 42, 33,204,32,  4, 16,132,  9, 72,  6, 48
+
+
 
 
 rocasAtributos:
@@ -103,6 +107,7 @@ rocasAtributos:
 	DEFB	65,81,81,65 ; roca 8 atributos
 	DEFB	89,65,65,89	; roca 9 atributos
 	DEFB	 68, 68, 68, 68 ; seta atributos
+	DEFB	 70, 70, 70, 70 ; flor atributos
 
 
 rocasAtributosCopiaSeguridad:

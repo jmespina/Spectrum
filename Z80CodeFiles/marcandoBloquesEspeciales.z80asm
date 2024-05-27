@@ -1,23 +1,3 @@
-﻿marcandoBloquesEspeciales:
-; A partir de aqui vamos a comparar con los diversos objetos que nos podemos encontrar
-    cp 7 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, paredFalsaActivar
+﻿; aqui voy a poner codigo que estaba en rutinasPrevias, pero que era una adicción mia
 
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-                                                                                                                                          
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    ; para intentar que suena al chocar contra una pared    
-    cp 1
-    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    jp z, PlaySound
-
-RET
+marcandoBloquesEspeciales:

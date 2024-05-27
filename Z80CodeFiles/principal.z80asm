@@ -46,6 +46,7 @@ redraw:
     ;call ImpMap10x10 ; Imprimimos el mapa 10x10 (y lo borramos)
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
+    CALL frutasEspeciales4 ; comprueba si hemos cogido la pera
     ;CALL meterRetardo
     
     
@@ -113,6 +114,7 @@ checkCtrl_Kempston_final:
 RET
 
 podemosIrDer:                  
+    
 
     ld hl, (DS_COORD_Y)
     SRL L   ; ahora si es impar, mira arriba
@@ -136,6 +138,9 @@ podemosIrDer:
     
     
     ; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
+    cp 7 ; JM comparamos con 7, si es 7 es la Pared falsa
+    jp z, paredFalsaActivar
+
     cp 8 ; JM comparamos con 8, si es 8 es la Meta
     jp z, meta
 
@@ -147,6 +152,9 @@ podemosIrDer:
     
     cp $11 ; JM comparamos con 11, si es 11 es el platano
     jp z, platanoActivar
+
+    cp $12 ; JM comparamos con 12, si es 12 es la pera, hace que aparezcan flores al azar
+    jp z, peraActivar
                                                                                                                                       
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
@@ -180,7 +188,7 @@ parDerecha:
     ld a, (IX+0)
     ld c,a
 
-    cp 7 ; JM comparamos con 8, si es 8 es la Meta
+    cp 7 ; JM comparamos con 7, si es 7 es la Pared falsa
     jp z, paredFalsaActivar
 
     cp 8 ; JM comparamos con 8, si es 8 es la Meta
@@ -195,6 +203,9 @@ parDerecha:
     cp $11 ; JM comparamos con 11, si es 11 es el chupete
     jp z, platanoActivar
 
+    cp $12 ; JM comparamos con 12, si es 12 es la pera, hace que aparezcan flores al azar
+    jp z, peraActivar
+    
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
 

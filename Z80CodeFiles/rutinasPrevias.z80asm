@@ -129,12 +129,15 @@ drawmg16_xloop:
     cp 255                    ; Bloque especial a saltar: no se dibuja
     jp z, drawmg16_next
 
-    
-; Aqui voy a meter la rutina para formar el mapa de colisiones
+    ; Aqui voy a meter la rutina para formar el mapa de colisiones
     cp 0
     jp z, marcoConCeros
 
-; Voy a meter aqui el codigo de la pared falsa
+
+    cp 20 ; las flores las voy a hacer que se puedan traspasar, las trato como vacio
+    jp z, marcoConCeros
+
+    ; Voy a meter aqui el codigo de la pared falsa
     cp 7
     jp z, marcoParedFalsa
 
@@ -154,6 +157,10 @@ drawmg16_xloop:
     cp 11
     jp z, marcoPlatano
 
+; Voy a meter aqui el codigo de la pera
+    cp 12
+    jp z, marcoPera
+
 ; Voy a meter aqui el codigo del huevo frito 13
     cp 13
     jp z, marcoHuevoFrito
@@ -166,14 +173,19 @@ drawmg16_xloop:
     cp 19
     jp z, marcoSeta
 
-
-	push AF
+push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
     LD A, $01   ;marco con un 1 los bloques ocupados
     LD (DE), a  ;JM
     EXX
     pop AF
+
     jp sigoConElCodigoOriginal
+    
+
+    ; Vamos a saltar a otra rutina en  el fichero marcandoBloquesEspeciales.z80asm
+    ; para ir formando el mapa de colisiciones con sus valores
+    ;JP marcandoBloquesEspeciales    
 
 marcoMeta:
     push AF
@@ -222,6 +234,16 @@ marcoPlatano:
     EXX
     pop AF
     ld (posUvasMapa),ix ;guardo la posición de las Uvas para borrarlo cuando las tope
+    jp sigoConElCodigoOriginal
+
+marcoPera:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $12 ;Voy a marcar la pera con el codigo 12
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    ld (posUvasMapa),ix ;guardo la posición de la pera para borrarlo cuando las tope
     jp sigoConElCodigoOriginal
 
 marcoHuevoFrito:
