@@ -1,8 +1,12 @@
 ﻿; Animacion final de nivel. El sprite pasa y va borrando su rastro.
 ; version final
 
-
 meta:
+    ; Meta sin bebe o con bebe 
+    ld a,(FrutaUvasVar)
+    cp 2
+    jp z, metaConBebe
+
     ld hl, monster_truck_METAM
     ld (DS_SPRITESM), hl
     ld hl, monster_truck_META_attribM
@@ -62,7 +66,9 @@ loopRecorridoFinalFinal:
  
 
    
-metaConBene:
+metaConBebe:
+    call DrawMap_16x16_Map ; Muestro el mapa para borrar al bebe       
+    
     ld hl, monster_truck_Meta_con_Bebe
     ld (DS_SPRITESM), hl
     ld hl, monster_truck_Meta_con_Bebe_Atributos

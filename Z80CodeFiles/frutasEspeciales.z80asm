@@ -88,11 +88,9 @@ frutasEspeciales4:
     LD (CONTADOR_DE_FLORES),A
     ld hl,mapa_nivel24
     
-    
-    ld bc,2800  ; https://wiki.speccy.org/cursos/ensamblador/lenguaje_3
+    ld bc,2800  ; El nivel 24 tiene 2880 bloques.
     ld de,0
     bucleFlores:
-        
         ld de, (DS_COORD_Y)
         .loop 5
             add hl,de
@@ -100,7 +98,8 @@ frutasEspeciales4:
         ld de, (DS_COORD_X)
         ld d,0
         add hl,de
-        CALL cambiarFlor
+        ld a,20     ; cargo la flor en la posición del mapa que se haya calculado
+        ld (hl),a        
 
         push HL ; guardo el valor de por donde voy
 
@@ -108,19 +107,11 @@ frutasEspeciales4:
         sbc hl,de
         sbc hl,bc
         pop HL
-        ;dec BC
-        ;ld a,b
-        ;or c
         jr c, bucleFlores
     
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A
 RET
-
-cambiarFlor:
-    ld a,20 
-    ld (hl),a        
-RET    
 
 frutaUvasActivar:
     ld a,1
