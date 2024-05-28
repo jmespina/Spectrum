@@ -173,21 +173,16 @@ drawmg16_xloop:
     cp 19
     jp z, marcoSeta
 
-push AF
+    push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
     LD A, $01   ;marco con un 1 los bloques ocupados
     LD (DE), a  ;JM
     EXX
     pop AF
 
-    jp sigoConElCodigoOriginal
-    
+jp sigoConElCodigoOriginal
 
-    ; Vamos a saltar a otra rutina en  el fichero marcandoBloquesEspeciales.z80asm
-    ; para ir formando el mapa de colisiciones con sus valores
-    ;JP marcandoBloquesEspeciales    
-
-marcoMeta:
+    marcoMeta:
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
     LD A, $08 ;Voy a marcar la Meta con el codigo 8
@@ -195,6 +190,7 @@ marcoMeta:
     EXX
     pop AF
     jp sigoConElCodigoOriginal
+
 
 marcoParedFalsa:
     push AF
@@ -273,6 +269,14 @@ marcoConCeros:
     LD (DE), a  ;JM
     EXX
     pop AF
+
+    
+
+    ; Vamos a saltar a otra rutina en  el fichero marcandoBloquesEspeciales.z80asm
+    ; para ir formando el mapa de colisiciones con sus valores
+    ;JP marcandoBloquesEspeciales    
+    ;CALL marcandoBloquesEspeciales
+
     
 sigoConElCodigoOriginal:
 ; sigue el codigo original

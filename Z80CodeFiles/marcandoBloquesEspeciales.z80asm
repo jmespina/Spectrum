@@ -1,3 +1,4 @@
 ﻿; aqui voy a poner codigo que estaba en rutinasPrevias, pero que era una adicción mia
 
 marcandoBloquesEspeciales:
+    jp sigoConElCodigoOriginal

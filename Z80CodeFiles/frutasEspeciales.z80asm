@@ -75,7 +75,7 @@ frutasEspeciales3:
     ld (FrutaUvasReset),A
 RET
 
-CONTADOR_DE_FLORES  DEFB   8
+CONTADOR_DE_FLORES  DEFB   6
 
 frutasEspeciales4:
     ld a,(FrutaUvasVar)
@@ -87,18 +87,31 @@ frutasEspeciales4:
     dec A
     LD (CONTADOR_DE_FLORES),A
     ld hl,mapa_nivel24
-    .loop 100 ;2880
-        CALL cambiarFlor
+    
+    
+    ld bc,2800  ; https://wiki.speccy.org/cursos/ensamblador/lenguaje_3
+    ld de,0
+    bucleFlores:
+        
         ld de, (DS_COORD_Y)
+        .loop 5
+            add hl,de
+        .endl            
+        ld de, (DS_COORD_X)
+        ld d,0
         add hl,de
-        ;ld de, (DS_COORD_X)
-        ;add hl,de
-        ld e,25
-        add hl,de
-        ;.loop 28
-        ;    inc hl
-        ;.endl
-    .endl            
+        CALL cambiarFlor
+
+        push HL ; guardo el valor de por donde voy
+
+        ld de,mapa_nivel24
+        sbc hl,de
+        sbc hl,bc
+        pop HL
+        ;dec BC
+        ;ld a,b
+        ;or c
+        jr c, bucleFlores
     
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A

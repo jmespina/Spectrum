@@ -142,7 +142,8 @@ podemosIrDer:
     jp z, paredFalsaActivar
 
     cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
+    ;jp z, meta
+    jp z, metaConBene
 
     cp 9 ; JM comparamos con 9, si es 9 son las Uvas
     jp z, frutaUvasActivar

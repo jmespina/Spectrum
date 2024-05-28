@@ -5,7 +5,7 @@ seleccionarNivel:
     ld a, (DM_NIVEL)
     cp 99
     ;jp z, noventaYNueve
-    jp z,veinticuatro
+    jp z,catorce
     cp 1
     jp z, uno
     cp 2
@@ -26,6 +26,8 @@ seleccionarNivel:
     jp z, doce
     cp 13
     jp z, trece
+    cp 14
+    jp z, catorce
     cp 20
     jp z, veinte
     cp 21
@@ -106,6 +108,13 @@ trece:
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel13
+    jp seleccionarNivelFin
+catorce:
+    ld a,160  ; definimos las dimensiones del nivel 14
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel14
     jp seleccionarNivelFin
 veinte:
     ld a,32  ; definimos las dimensiones del nivel 20

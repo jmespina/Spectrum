@@ -62,3 +62,23 @@ loopRecorridoFinalFinal:
  
 
    
+metaConBene:
+    ld hl, monster_truck_Meta_con_Bebe
+    ld (DS_SPRITESM), hl
+    ld hl, monster_truck_Meta_con_Bebe_Atributos
+    ld (DS_ATTRIBSM), hl
+    
+    ld a, (DS_COORD_X)      ; Ahora el Monster Truck saldra de adonde este el personaje
+    ld (DS_COORD_XM), a
+    ld a,(DS_COORD_Y)
+    ld (DS_COORD_YM), a
+
+    ld a, 7 ; Son 7 para que los sprites de más de la izquierda vayan borrando el rasto
+    ld (DS_WIDTHM), a
+    ld a, 5
+    ld (DS_HEIGHTM), a
+    xor a
+    ld (DS_NUMSPRM), a
+
+    JP loopRecorridoFinal
+    
