@@ -114,7 +114,7 @@ menu:
     ;ld hl,rotulolinea19
     ;CALL PrintStringFF
 
-    CALL leerEdad
+    
 
 RET
 

@@ -10,11 +10,12 @@ Start:
     ld (DM_SPRITES), hl
     ld hl, rocasAtributos
     ld (DM_ATTRIBS), hl
-    ld a,0  ; inicializamos el nivel a 0, lo que hace que estemos en el bucle de esperar
-    ld (DM_NIVEL),a
-
+    ;ld a,0  ; inicializamos el nivel a 0, lo que hace que estemos en el bucle de esperar
+    ;ld (DM_NIVEL),a ; No hace falta porque en su definición esa variable vale 0
+    
+    CALL menu     
 bucleMenu:
-    CALL menu
+    CALL leerEdad
     ld a,(DM_NIVEL)
     cp 0
     jp z, bucleMenu ; Si ha cambiado el nivel, nos salimos del bucle y empieza el juego
@@ -23,7 +24,7 @@ inicioNivel:
     .loop 20
         halt
     .endl        
-	LD HL, mapa_pantalla16x12 ;JM
+	LD HL, mapa_pantalla16x12 ; mapa de colisiones creado por mí 
     LD (DM_MAP10x10), HL  
     ld a, ANCHO_PANTALLA
     ld (DM_WIDTH), a
@@ -35,8 +36,6 @@ inicioNivel:
     ld (DM_MAPX), a            ; Establecemos MaPX, MaPY iniciales = 0
     ld (DM_MAPY), a
 
-    
-
 CALL pintarBicho ; inicializamos
 CALL seleccionarNivel ; elegimos nivel 1
  
@@ -47,9 +46,7 @@ redraw:
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
     CALL frutasEspeciales4 ; comprueba si hemos cogido la pera
-    ;CALL meterRetardo
-    
-    
+    ;CALL meterRetardo    ;descomentar antes de versión final
     
 bucle:
     xor a
@@ -136,39 +133,9 @@ podemosIrDer:
     ld a, (IX+0)
     ld c,a
     
+    CALL comprobarDestino ; Mira lo que hay en la dirección de la tecla marcada
     
-    ; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
-    cp 7 ; JM comparamos con 7, si es 7 es la Pared falsa
-    jp z, paredFalsaActivar
-
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    ;jp z, meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-    
-    cp $11 ; JM comparamos con 11, si es 11 es el platano
-    jp z, platanoActivar
-
-    cp $12 ; JM comparamos con 12, si es 12 es la pera, hace que aparezcan flores al azar
-    jp z, peraActivar
-                                                                                                                                      
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    cp $19 ; JM comparamos con 19, si es 19 es la seta, vuelva al inicio
-    jp z, setas
-
-    ; para intentar que suena al chocar contra una pared    
-    cp 1
-    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    jp z, PlaySound
-
-    cp 0               ; comparamos con 0, si es 0 se puede mover.
+    cp 0               ; comparamos con 0, si es 0 se puede mover. Sino se comprueba lo que hay un bloque arriba y abajo
     ret nz 
 
 parDerecha:
@@ -189,34 +156,11 @@ parDerecha:
     ld a, (IX+0)
     ld c,a
 
-    cp 7 ; JM comparamos con 7, si es 7 es la Pared falsa
-    jp z, paredFalsaActivar
-
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-
-    cp $11 ; JM comparamos con 11, si es 11 es el chupete
-    jp z, platanoActivar
-
-    cp $12 ; JM comparamos con 12, si es 12 es la pera, hace que aparezcan flores al azar
-    jp z, peraActivar
-    
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    cp $19 ; JM comparamos con 19, si es 19 es la seta, vuelva al inicio
-    jp z, setas
+    CALL comprobarDestino ; Mira lo que hay en la dirección de la tecla marcada
 
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoDerecha
-    ld		a, $03   ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    call	PlaySound
+        
 RET
 
 
@@ -257,32 +201,14 @@ podemosIrAbajo:
     add ix, de                ; IX = Inicio_Mapa + HL
     
     ld a, (IX+0)
-    exx ;Es necesario porque luego se machaca el valor de A y luego se vuelve a necesitar
-    ld c,a ; creo que no vale para nadap
+    ;exx ;Es necesario porque luego se machaca el valor de A y luego se vuelve a necesitar
+    ;ld c,a ; creo que no vale para nadap
 
 ; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
-    cp 7 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, paredFalsaActivar
-
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-                                                                                                                                          
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    ; para intentar que suena al chocar contra una pared    
-    cp 1
-    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    jp z, PlaySound
+    CALL comprobarDestino
 
     cp 0               ; comparamos con 0, si es 0 se puede mover.
-    exx
+    ;exx
     jp z, comprobarAbajoIzq
     RET
 
@@ -304,25 +230,7 @@ parAbajo:
     ld c,a
 
 ; A partir de aqui vamos a comprar con los diversos objetos que nos podemos encontrar
-    cp 7 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, paredFalsaActivar
-
-    cp 8 ; JM comparamos con 8, si es 8 es la Meta
-    jp z, meta
-
-    cp 9 ; JM comparamos con 9, si es 9 son las Uvas
-    jp z, frutaUvasActivar
-
-    cp $10 ; JM comparamos con 10, si es 10 es el chupete
-    jp z, chupeteActivar
-                                                                                                                                          
-    cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
-    jp z, teletransportar
-
-    ; para intentar que suena al chocar contra una pared    
-    cp 1
-    ;ld a,3 ; si llegamos aqui es que habia un bloque y que se emita un sonido
-    jp z, PlaySound
+    CALL comprobarDestino
 
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoAbajo
@@ -354,8 +262,6 @@ noEsNivel24:
 ret
 
 
-
-
 podemosIrIzq:
     ld HL, (DS_COORD_Y)
     SRL L
@@ -375,6 +281,9 @@ podemosIrIzq:
     ADD IX,DE
     LD A, (IX+0)
     LD C,A
+
+    CALL comprobarDestino ;llamada a rutina para comprobarlo todo
+
     CP 0
     ret nz
 
@@ -394,6 +303,9 @@ parIzquierda:
     add ix, de                ; IX = Inicio_Mapa + HL
     ld a, (IX+0)
     ld c,a
+
+    CALL comprobarDestino ;llamada a rutina para comprobarlo todo
+
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoIzq  
 RET
@@ -433,10 +345,13 @@ podemosIrArriba:
     ADD IX,DE
 
     LD A,(IX+0)
-    EXX
+    ;EXX
     LD C,A
+
+    CALL comprobarDestino ;llamada a rutina para comprobarlo todo
+
     CP 0
-    EXX
+    ;EXX
     jp z, comprobarArribaIzq
 RET
 
@@ -456,6 +371,9 @@ parArriba: ;si C era par no hacemos nada
 
     LD A,(IX+0)
     LD C,A
+
+    CALL comprobarDestino ;llamada a rutina para comprobarlo todo
+
     CP 0
     jp z, moverBichoArriba
     
