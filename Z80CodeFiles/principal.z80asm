@@ -336,7 +336,7 @@ podemosIrArriba:
     SRL C ;en C tengo la posición del bicho. Como la posicion del bicho va en bloques de 8x8 y el mapa de colisiones va de 16x16, la tengo que dividir por dos
     jp nc, parArriba ;segun el bit de carry salto o no
 
-    ;consideramos que C era impar
+    ;consideramos que C era impar    
     INC C ;si llega aqui es impar, deberia mirar a izq y derecha
 
     ADD HL,BC  ;si salta continua la ejecución normal del programa
@@ -345,13 +345,13 @@ podemosIrArriba:
     ADD IX,DE
 
     LD A,(IX+0)
-    ;EXX
+    EXX ; Si no se hace esto para guardar el valor de C, luego da problema a la hora de ir arriba
     LD C,A
 
     CALL comprobarDestino ;llamada a rutina para comprobarlo todo
 
     CP 0
-    ;EXX
+    EXX
     jp z, comprobarArribaIzq
 RET
 

@@ -107,7 +107,7 @@ frutasEspeciales3:
     ld (FrutaUvasReset),A
 RET
 
-CONTADOR_DE_FLORES  DEFB   6
+CONTADOR_DE_FLORES  DEFB   8
 
 frutasEspeciales4:
     ld a,(FrutaUvasVar)
@@ -130,8 +130,7 @@ frutasEspeciales4:
         ld de, (DS_COORD_X)
         ld d,0
         add hl,de
-        ld a,20     ; cargo la flor en la posición del mapa que se haya calculado
-        ld (hl),a        
+        CALL ponerFlores
 
         push HL ; guardo el valor de por donde voy
 
@@ -143,6 +142,14 @@ frutasEspeciales4:
     
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A
+RET
+
+ponerFlores:
+        ld a,(hl)
+        cp 0 ;Si es distinto de 0 no es el vacio, por lo que vuelvo sin machacarlo
+        ret nz
+        ld a,20     ; cargo la flor en la posición del mapa que se haya calculado
+        ld (hl),a        
 RET
 
 frutaUvasActivar:

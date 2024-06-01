@@ -5,7 +5,7 @@ seleccionarNivel:
     ld a, (DM_NIVEL)
     cp 99
     ;jp z, noventaYNueve
-    jp z,catorce
+    jp z,veinticuatro
     cp 1
     jp z, uno
     cp 2
