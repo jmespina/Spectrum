@@ -960,3 +960,28 @@ pop     hl
 pop     de
 
 ret
+
+; Rutina de https://espamatica.com/0x03-ensamblador-zx-spectrum-marciano-area-juego/
+
+; Variable de sistema donde están los atributos de color permanentes
+ATTR_P:	    EQU $5c8d
+; ----------------------------------------------------------------------------
+; Rutina de la ROM que limpia la pantalla usando el valor que hay en ATTR_P.
+; ----------------------------------------------------------------------------
+CLS:        EQU $0daf
+; Variable de sistema donde se guarda el borde. También usada por BEEPER.
+; También se guardan aquí los atributos de la línea de comandos.
+BORDCR:	    EQU $5c48
+
+coloresMenu:
+ld		hl, ATTR_P
+;ld		(hl), $07
+ld		(hl), $05  ; Texto en color celestre
+call	CLS
+xor		a
+out		($fe), a
+ld		a, (BORDCR)
+and		$c7
+;or		$07
+ld		(BORDCR), a
+RET

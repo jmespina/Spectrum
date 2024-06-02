@@ -154,7 +154,7 @@ RET
 
 frutaUvasActivar:
     ld a,1
-    out ($fe), a
+    ;out ($fe), a
     ld (FrutaUvasVar),a
 
     ld hl,(posUvasMapa)
@@ -163,8 +163,8 @@ frutaUvasActivar:
 RET
 
 chupeteActivar:
-    ld a,1
-    out ($fe), a
+    ;ld a,1
+    ;out ($fe), a
     ld a,2
     ld (FrutaUvasVar),a
 
@@ -174,8 +174,8 @@ chupeteActivar:
 RET
 
 paredFalsaActivar:
-    ld a,1
-    out ($fe), a
+    ;ld a,1
+    ;out ($fe), a
     ;ld (FrutaUvasVar),a
 
     ld hl,(posUvasMapa)
@@ -184,8 +184,8 @@ paredFalsaActivar:
 RET
 
 platanoActivar:
-    ld a,1
-    out ($fe), a
+    ;ld a,1
+    ;out ($fe), a
     ld a,3
     ld (FrutaUvasVar),a
 
@@ -196,8 +196,8 @@ platanoActivar:
 RET
 
 peraActivar:
-    ld a,1
-    out ($fe), a
+    ;ld a,1
+    ;out ($fe), a
     ld a,4
     ld (FrutaUvasVar),a
 

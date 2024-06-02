@@ -1,5 +1,7 @@
 ﻿
 menu:
+    CALL coloresMenu
+
     ld a,2;	      ; upper screen
 	call #1601    ; open the channel
     
