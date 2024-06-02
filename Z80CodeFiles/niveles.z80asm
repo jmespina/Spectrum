@@ -56,20 +56,16 @@ noventaYNueve:
 
 
 uno:
-    ld a,48  ; definimos las dimensiones del nivel 1
+    ld a,53  ; definimos las dimensiones del nivel 1
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel01 ;cargamos mapa
     jp seleccionarNivelFin
-dos:
+dos: ; no hace falta volver a definir las dimensiones pues en los 5 primeros niveles son iguales a las del nivel 1
     ld hl, mapa_nivel02
     jp seleccionarNivelFin
 tres:
-    ld a,48  ; definimos las dimensiones del nivel 1
-    ld (ANCHO_MAPA_TILES),a
-    ld a,12
-    ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel03
     jp seleccionarNivelFin
 cuatro:
@@ -82,35 +78,35 @@ seis:
     ld a, 10
     ld (DM_NIVEL),a     ; continuamos en el nivel 10
 diez:
-    ld a,60  ; definimos las dimensiones del nivel 10
+    ld a,65  ; definimos las dimensiones del nivel 10
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel10
     jp seleccionarNivelFin
 once:
-    ld a,80  ; definimos las dimensiones del nivel 11
+    ld a,85  ; definimos las dimensiones del nivel 11
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel11
     jp seleccionarNivelFin
 doce:
-    ld a,80  ; definimos las dimensiones del nivel 12
+    ld a,85  ; definimos las dimensiones del nivel 12
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel12
     jp seleccionarNivelFin
 trece:
-    ld a,160  ; definimos las dimensiones del nivel 13
+    ld a,165  ; definimos las dimensiones del nivel 13
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel13
     jp seleccionarNivelFin
 catorce:
-    ld a,160  ; definimos las dimensiones del nivel 14
+    ld a,165  ; definimos las dimensiones del nivel 14
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
