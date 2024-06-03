@@ -118,7 +118,13 @@ frutasEspeciales4:
     ret z
     dec A
     LD (CONTADOR_DE_FLORES),A
-    ld hl,mapa_nivel24
+
+    ; Para hacerlo en el nivel 14
+    ld a, (DM_NIVEL)
+    cp 14
+    jp z,floresCatorce
+
+    ld hl,mapa_nivel24 ; Si llego aqui estoy en el nivel 24
     
     ld bc,2800  ; El nivel 24 tiene 2880 bloques.
     ld de,0
@@ -139,6 +145,33 @@ frutasEspeciales4:
         sbc hl,bc
         pop HL
         jr c, bucleFlores
+    
+    ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
+    ld (FrutaUvasReset),A
+RET
+
+floresCatorce:
+ld hl,mapa_nivel14 ; Si llego aqui estoy en el nivel 24
+    
+    ld bc,1920  ; El nivel 14 tiene 1920 bloques.(Sin contar con los últimos 5 bloques del extremo derecho)
+    ld de,0
+    bucleFlores14:
+        ld de, (DS_COORD_Y)
+        .loop 5
+            add hl,de
+        .endl            
+        ld de, (DS_COORD_X)
+        ld d,0
+        add hl,de
+        CALL ponerFlores
+
+        push HL ; guardo el valor de por donde voy
+
+        ld de,mapa_nivel14
+        sbc hl,de
+        sbc hl,bc
+        pop HL
+        jr c, bucleFlores14
     
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A
