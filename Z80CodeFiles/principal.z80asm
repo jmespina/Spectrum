@@ -492,6 +492,7 @@ DS_NUMSPR   DEFB   0
 FrutaUvasVar    DEFB 0      ; indica que hay que aplicar algún efecto
 FrutaUvasReset  DEFB 0      ; indica que hay que resetear un efecto cuando empiece un nuevo nivel
 posUvasMapa     DEFW   0
+posMetaMapa     DEFW   0    ; usada para borrar el coche Meta tras cogerlo
 joystickDesactivado DEFB 0      ; para controlar el joystick
 
 

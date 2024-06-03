@@ -183,6 +183,9 @@ drawmg16_xloop:
 jp sigoConElCodigoOriginal
 
     marcoMeta:
+    dec ix
+    ld (posMetaMapa),ix
+    inc IX
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
     LD A, $08 ;Voy a marcar la Meta con el codigo 8

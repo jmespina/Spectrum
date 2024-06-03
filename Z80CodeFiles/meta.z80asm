@@ -2,6 +2,10 @@
 ; version final
 
 meta:
+    ld hl,(posMetaMapa)
+    ld (hl),0
+    call DrawMap_16x16_Map     ; Para borrar al coche tras cogerlo
+
     ; Meta sin bebe o con bebe 
     ld a,(FrutaUvasVar)
     cp 2

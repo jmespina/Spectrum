@@ -5,7 +5,7 @@ seleccionarNivel:
     ld a, (DM_NIVEL)
     cp 99
     ;jp z, noventaYNueve
-    jp z,catorce
+    jp z,veinticinco
     cp 1
     jp z, uno
     cp 2
@@ -40,6 +40,8 @@ seleccionarNivel:
     jp z,veintitres
     cp 24
     jp z,veinticuatro
+    cp 25
+    jp z,veinticinco
 
 ; Si ha llegado aqui no tiene nivel definido, lo voy a mandar al nivel 1
     ld a, 1
@@ -47,7 +49,6 @@ seleccionarNivel:
     jp uno
 
 noventaYNueve:
-    ;jp tres
     ld a,16  ; definimos las dimensiones del nivel oculto 99
     ld (ANCHO_MAPA_TILES),a
     ld a,12
@@ -125,21 +126,21 @@ veinte:
     ld hl, mapa_nivel20
     jp seleccionarNivelFin
 veintiuno:
-    ld a,48  ; definimos las dimensiones del nivel 21
+    ld a,53  ; definimos las dimensiones del nivel 21
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel21
     jp seleccionarNivelFin
 veintidos:
-    ld a,80  ; definimos las dimensiones del nivel 22
+    ld a,85  ; definimos las dimensiones del nivel 22
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel22
     jp seleccionarNivelFin
 veintitres:
-    ld a,160  ; definimos las dimensiones del nivel 23
+    ld a,165  ; definimos las dimensiones del nivel 23
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
@@ -148,12 +149,45 @@ veintitres:
 veinticuatro:
     ld a,24
     ld (DM_NIVEL),a
-    ld a,80  ; definimos las dimensiones del nivel 24
+    ld a,85  ; definimos las dimensiones del nivel 24
     ld (ANCHO_MAPA_TILES),a
     ld a,36
     ld (ALTO_MAPA_TILES),a
     ld hl, mapa_nivel24
     jp seleccionarNivelFin
+veinticinco:
+    ld a,16  ; definimos las dimensiones del nivel oculto 99
+    ld (ANCHO_MAPA_TILES),a
+    ld a,12
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel25 ;cargamos mapa
+    ld (DM_MAP), hl        
+    call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
+
+    ld hl, monster_truck_METAM
+    ld (DS_SPRITESM), hl
+    ld hl, monster_truck_META_attribM
+    ld (DS_ATTRIBSM), hl
+    
+    ld a, 5
+    ld (DS_COORD_XM), a
+    ld a,5
+    ld (DS_COORD_YM), a
+
+    ld a, 7 ; Son 7 para que los sprites de más de la izquierda vayan borrando el rasto
+    ld (DS_WIDTHM), a
+    ld a, 4
+    ld (DS_HEIGHTM), a
+    xor a
+    ld (DS_NUMSPRM), a
+
+    call DrawSprite_MxN_LD
+
+    .loop 500
+        halt
+    .endl        
+    
+    jp Start
 
 seleccionarNivelFin:
     ld (DM_MAP), hl        

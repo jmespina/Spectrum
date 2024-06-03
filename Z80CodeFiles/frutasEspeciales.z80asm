@@ -28,7 +28,6 @@ comprobarDestino:   ; vamos a comprobar que hay en la dirección de la tecla pul
 	; para que suene al chocar contra una pared    
     cp 1
     jp z, PlaySound
-
     
 RET
 
