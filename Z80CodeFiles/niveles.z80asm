@@ -164,26 +164,57 @@ veinticinco:
     ld (DM_MAP), hl        
     call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
 
-    ld hl, monster_truck_METAM
+    ld hl, fotoFinal1
     ld (DS_SPRITESM), hl
-    ld hl, monster_truck_META_attribM
+    ld hl, fotoFinal_attributos
     ld (DS_ATTRIBSM), hl
     
-    ld a, 5
+    ld a, 3
     ld (DS_COORD_XM), a
-    ld a,5
+    ld a,0
     ld (DS_COORD_YM), a
 
-    ld a, 7 ; Son 7 para que los sprites de más de la izquierda vayan borrando el rasto
+    ld a, 13 ; Tamaño de la foto en bloques de 8x8 pixels
     ld (DS_WIDTHM), a
-    ld a, 4
+    ld a, 12
     ld (DS_HEIGHTM), a
     xor a
     ld (DS_NUMSPRM), a
 
     call DrawSprite_MxN_LD
 
-    .loop 500
+    ld hl, fotoFinal2
+    ld (DS_SPRITESM), hl
+    
+    ld a, 16
+    ld (DS_COORD_XM), a
+    ld a,0
+    ld (DS_COORD_YM), a
+
+    call DrawSprite_MxN_LD
+
+    ld hl, fotoFinal3
+    ld (DS_SPRITESM), hl
+    
+    ld a, 3
+    ld (DS_COORD_XM), a
+    ld a,12
+    ld (DS_COORD_YM), a
+
+    call DrawSprite_MxN_LD
+
+    ld hl, fotoFinal4
+    ld (DS_SPRITESM), hl
+    
+    ld a, 16
+    ld (DS_COORD_XM), a
+    ld a,12
+    ld (DS_COORD_YM), a
+
+    call DrawSprite_MxN_LD
+
+
+    .loop 2000
         halt
     .endl        
     
