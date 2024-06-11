@@ -43,9 +43,8 @@ loopRecorridoFinal:
     INC a
     ld (DM_NIVEL),a
 
-    .loop 100
-        halt
-    .endl   
+    ;CALL voz1
+    ;CALL voz2
 
     ld a,(FrutaUvasReset)    
     cp 1 ; comprobamos si hemos cogido las uvas del flash

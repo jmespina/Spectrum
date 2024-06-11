@@ -1,5 +1,5 @@
 {
-  "DefaultTapeFile": "TapeFiles\\Welcome.tzx",
+  "DefaultTapeFile": "TapeFiles\\MicroHobby Cassette (Issue 01) - Side A.tzx",
   "DefaultAnnotationFile": "Annotations.disann",
-  "DefaultCodeFile": "Z80CodeFiles\\principal.z80asm"
+  "DefaultCodeFile": "Z80CodeFiles\\EliasYJuan.z80asm"
 }

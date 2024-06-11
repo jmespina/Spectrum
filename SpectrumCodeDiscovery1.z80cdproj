@@ -13,6 +13,8 @@
     <DisassAnn Include="Rom\ZxSpectrum48.disann" />
     <Z80Asm Include="DisassemblyFiles\ExportedCode.z80asm" />
     <Z80Asm Include="Z80CodeFiles\cadenasTexto.z80asm" />
+    <Z80Asm Include="Z80CodeFiles\voz2.z80asm" />
+    <Z80Asm Include="Z80CodeFiles\voz1.z80asm" />
     <Z80Asm Include="Z80CodeFiles\marcandoBloquesEspeciales.z80asm" />
     <Z80Asm Include="Z80CodeFiles\niveles.z80asm" />
     <Z80Asm Include="Z80CodeFiles\meta.z80asm" />
@@ -20,7 +22,7 @@
     <Z80Asm Include="Z80CodeFiles\graficos.z80asm" />
     <Z80Asm Include="Z80CodeFiles\imprimirMapaColisiones.z80asm" />
     <Z80Asm Include="Z80CodeFiles\mapas.z80asm" />
-    <Z80Asm Include="Z80CodeFiles\principal.z80asm" />
+    <Z80Asm Include="Z80CodeFiles\EliasYJuan.z80asm" />
     <Z80Asm Include="Z80CodeFiles\rutinasPrevias.z80asm" />
     <Z80Asm Include="Z80CodeFiles\frutasEspeciales.z80asm" />
     <ZxBasic Include="ZxBasicFiles\Program.zxbas" />
@@ -33,6 +35,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Tap Include="TapeFiles\EliasYJuan.tap" />
     <Tap Include="TapeFiles\principal.tap" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />

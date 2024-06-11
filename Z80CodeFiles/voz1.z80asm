@@ -1,0 +1,580 @@
+﻿; vox sintetizada primeras letras
+
+voz1:
+	CALL StartB
+	CALL StartI
+	CALL StartE	
+	CALL StartN
+
+.loop 50
+        ;halt
+.endl  
+
+RET
+
+StartB:
+    F618B:
+	JP F6B1B
+
+
+F6B1B:
+	LD HL, $5D52;(5C4B)	; carga el valor 5D52
+	LD A,(HL)	; carga en A el valor de la dirección 5D52, que es 56
+	LD A,$56
+	CP 56
+	JR Z, F6C4B	; si (A == 56) salta a F6C4
+
+F6C4B:
+	INC HL
+	LD A,$A7 ; carga en A A7 (167)
+	PUSH AF
+	LD C,(HL) ; carga en C el valor 01
+	LD C,$01 ; le doy el dato que coge el programa
+	INC HL
+	LD B,(HL) ; carga en B el valor 00
+	LD B,$00 ; le doy el dato que coge el programa
+	LD A,B
+	OR C
+	;JP Z,F9C1 ; NO salta
+	INC HL
+	POP AF
+	RRCA ;8-bit rotation to the right. NO Divide por 2 (Valor tras ejecución D341)
+	; 8 bits de a7 a d3
+	LD ($F62B),A
+	LD ($F636),A
+	LD A,(HL)
+	LD A,$62 ; manual b
+	CP 20
+	;JR Z,F712 ; NO salta
+	CP 41
+	;JP C,F7D3 ;NO salta
+	CP $7B
+	;JP NC,F7D3 ;NO salta
+	CP $5B
+	;JR C,F6F3 ;NO salta
+	CP 61
+	;JP C,F7D3 ;NO salta
+	SUB $20 ; le restamos 20 a A
+	PUSH BC
+	PUSH HL
+	SUB $41
+	SLA A ;Shifts arg1 register to the left with bit 7 moved to the carry flag 
+		;and bit 0 reset (zeroed). ¿Multiplica por 2?
+	LD E,A
+	LD D,00
+	LD HL,$F71E
+	ADD HL,DE
+	LD E,(HL)
+	LD E,$51 ;manual b
+	INC HL
+	LD H,(HL)
+	LD H,$F8 ;manual b
+	LD L,E
+	CALL F61BB
+	JP F707B
+
+F61BB:
+	DI
+	LD B,(HL)
+	LD B,$01 ; manual b
+	INC HL
+F61EB:
+	PUSH BC
+	PUSH HL
+	LD E,(HL)
+	;LD E,$11 ; manual b
+	INC HL
+	LD D,(HL)
+	INC HL
+F624B:
+	LD B,(HL)
+	;LD B,$00 ; manual b
+	LD A,B
+	AND A
+	JR Z,F632B ; en b SI salta
+F629B:
+	LD A,$17
+	OUT ($FE),A
+	CALL F6B0B
+	DJNZ F629B ;Decreases B and jumps to a label if not zero. Note that DJNZ does a relative jump
+			; b vale 17 (en hex) y salta
+F632B:
+	INC HL
+	LD B,(HL)
+	;LD B,$FF ; manual b
+F634B:
+	LD A,07
+	OUT ($FE),A
+	CALL F6B0B
+	DJNZ F634B ; B vale 62 y lo repite muchas veces
+	INC HL
+	DEC DE ;Vale 3 la primera vez que entra
+	LD A,D
+	OR E
+	JR NZ,F624B ;salta la primera vez que entra
+F643B:		;le meto un breakpoint para ver cuando llega aqui
+	POP HL
+	POP BC
+	DJNZ F61EB ;SALTA la primera vez que llega
+F647B:		;le meto un breakpoint para ver cuando llega aqui
+	EI
+	RET ; Va a F707	
+	;JP F707B
+
+F6B0B:
+	RET
+
+F707B:
+	POP HL
+	POP BC
+	DEC BC
+	INC HL
+	LD A,B
+	OR C
+	JP Z,F7D3B ; SI SALTA la priemra vez que llega
+;	JR F6D9
+
+F7D3B:
+	LD A,$3E
+	LD ($F62B),A
+	INC A
+	LD ($F636),A
+	;RET	; va a 2D2B, que es la ROM
+	;jp finI
+ret
+
+StartI:
+    F618I:
+	JP F6B1I
+
+
+F6B1I:
+	LD HL, $5D52;(5C4B)	; carga el valor 5D52
+	LD A,(HL)	; carga en A el valor de la dirección 5D52, que es 56
+	LD A,$56
+	CP 56
+	JR Z, F6C4I	; si (A == 56) salta a F6C4
+
+F6C4I:
+	INC HL
+	LD A,$A7 ; carga en A A7 (167)
+	PUSH AF
+	LD C,(HL) ; carga en C el valor 01
+	LD C,$01 ; le doy el dato que coge el programa
+	INC HL
+	LD B,(HL) ; carga en B el valor 00
+	LD B,$00 ; le doy el dato que coge el programa
+	LD A,B
+	OR C
+	;JP Z,F9C1 ; NO salta
+	INC HL
+	POP AF
+	RRCA ;8-bit rotation to the right. NO Divide por 2 (Valor tras ejecución D341)
+	; 8 bits de a7 a d3
+	LD ($F62B),A
+	LD ($F636),A
+	LD A,(HL)
+	LD A,$69 ; manual b
+	CP 20
+	;JR Z,F712 ; NO salta
+	CP 41
+	;JP C,F7D3 ;NO salta
+	CP $7B
+	;JP NC,F7D3 ;NO salta
+	CP $5B
+	;JR C,F6F3 ;NO salta
+	CP 61
+	;JP C,F7D3 ;NO salta
+	SUB $20 ; le restamos 20 a A
+	PUSH BC
+	PUSH HL
+	SUB $41
+	SLA A ;Shifts arg1 register to the left with bit 7 moved to the carry flag 
+		;and bit 0 reset (zeroed). ¿Multiplica por 2?
+	LD E,A
+	LD D,00
+	LD HL,$F71E
+	ADD HL,DE
+	LD E,(HL)
+	LD E,$F6 ;manual I
+	INC HL
+	LD H,(HL)
+	LD H,$F7 ;manual I
+	LD L,E
+	CALL F61BI
+	JP F707I
+
+F61BI:
+	DI
+	LD B,(HL)
+	LD B,$0D ; manual I
+	INC HL
+F61EI:
+	PUSH BC
+	PUSH HL
+	LD E,(HL)
+	;LD E,$11 ; manual b
+	INC HL
+	LD D,(HL)
+	INC HL
+F624I:
+	LD B,(HL)
+	;LD B,$00 ; manual b
+	LD A,B
+	AND A
+	JR Z,F632I ; en b SI salta
+F629I:
+	LD A,$17
+	OUT ($FE),A
+	CALL F6B0I
+	DJNZ F629I ;Decreases B and jumps to a label if not zero. Note that DJNZ does a relative jump
+			; b vale 17 (en hex) y salta
+F632I:
+	INC HL
+	LD B,(HL)
+	;LD B,$FF ; manual b
+F634I:
+	LD A,07
+	OUT ($FE),A
+	CALL F6B0I
+	DJNZ F634I ; B vale 62 y lo repite muchas veces
+	INC HL
+	DEC DE ;Vale 3 la primera vez que entra
+	LD A,D
+	OR E
+	JR NZ,F624I ;salta la primera vez que entra
+F643I:		;le meto un breakpoint para ver cuando llega aqui
+	POP HL
+	POP BC
+	DJNZ F61EI ;SALTA la primera vez que llega
+F647I:		;le meto un breakpoint para ver cuando llega aqui
+	EI
+	RET ; Va a F707	
+	JP F707I
+
+
+F6B0I:
+	RET
+
+
+F707I:
+	POP HL
+	POP BC
+	DEC BC
+	INC HL
+	LD A,B
+	OR C
+	JP Z,F7D3I ; SI SALTA la priemra vez que llega
+;	JR F6D9
+
+F7D3I:
+	LD A,$3E
+	LD ($F62B),A
+	INC A
+	LD ($F636),A
+	;RET	; va a 2D2B, que es la ROM
+	;jp finI
+ret
+
+
+StartE:
+    F618E:
+	JP F6B1E
+
+
+F6B1E:
+	LD HL, $5D52;(5C4B)	; carga el valor 5D52
+	LD A,(HL)	; carga en A el valor de la dirección 5D52, que es 56
+	LD A,$56
+	CP 56
+	JR Z, F6C4E	; si (A == 56) salta a F6C4
+
+F6C4E:
+	INC HL
+	LD A,$A7 ; carga en A A7 (167)
+	PUSH AF
+	LD C,(HL) ; carga en C el valor 01
+	LD C,$01 ; le doy el dato que coge el programa
+	INC HL
+	LD B,(HL) ; carga en B el valor 00
+	LD B,$00 ; le doy el dato que coge el programa
+	LD A,B
+	OR C
+	;JP Z,F9C1 ; NO salta
+	INC HL
+	POP AF
+	RRCA ;8-bit rotation to the right. NO Divide por 2 (Valor tras ejecución D341)
+	; 8 bits de a7 a d3
+	LD ($F62B),A
+	LD ($F636),A
+	LD A,(HL)
+	LD A,$65 ; manual e
+	CP 20
+	;JR Z,F712 ; NO salta
+	CP 41
+	;JP C,F7D3 ;NO salta
+	CP $7B
+	;JP NC,F7D3 ;NO salta
+	CP $5B
+	;JR C,F6F3 ;NO salta
+	CP 61
+	;JP C,F7D3 ;NO salta
+	SUB $20 ; le restamos 20 a A
+	PUSH BC
+	PUSH HL
+	SUB $41
+	SLA A ;Shifts arg1 register to the left with bit 7 moved to the carry flag 
+		;and bit 0 reset (zeroed). ¿Multiplica por 2?
+	LD E,A
+	LD D,00
+	LD HL,$F71E
+	ADD HL,DE
+	LD E,(HL)
+	LD E,$DD ;manual E
+	INC HL
+	LD H,(HL)
+	LD H,$F7 ;manual E
+	LD L,E
+	CALL F61BE
+	JP F707E
+
+F61BE:
+	DI
+	LD B,(HL)
+	LD B,$0D ; manual E
+	INC HL
+F61EE:
+	PUSH BC
+	PUSH HL
+	LD E,(HL)
+	;LD E,$11 ; manual b
+	INC HL
+	LD D,(HL)
+	INC HL
+F624E:
+	LD B,(HL)
+	;LD B,$00 ; manual b
+	LD A,B
+	AND A
+	JR Z,F632E ; en b SI salta
+F629E:
+	LD A,$17
+	OUT ($FE),A
+	CALL F6B0B
+	DJNZ F629E ;Decreases B and jumps to a label if not zero. Note that DJNZ does a relative jump
+			; b vale 17 (en hex) y salta
+F632E:
+	INC HL
+	LD B,(HL)
+	;LD B,$FF ; manual b
+F634E:
+	LD A,07
+	OUT ($FE),A
+	CALL F6B0E
+	DJNZ F634E ; B vale 62 y lo repite muchas veces
+	INC HL
+	DEC DE ;Vale 3 la primera vez que entra
+	LD A,D
+	OR E
+	JR NZ,F624E ;salta la primera vez que entra
+F643E:		;le meto un breakpoint para ver cuando llega aqui
+	POP HL
+	POP BC
+	DJNZ F61EE ;SALTA la primera vez que llega
+F647E:		;le meto un breakpoint para ver cuando llega aqui
+	EI
+	RET ; Va a F707	
+	JP F707E
+
+
+F6B0E:
+	RET
+
+
+F707E:
+	POP HL
+	POP BC
+	DEC BC
+	INC HL
+	LD A,B
+	OR C
+	JP Z,F7D3E ; SI SALTA la priemra vez que llega
+;	JR F6D9
+
+.org 63443
+F7D3E:
+	LD A,$3E
+	LD ($F62B),A
+	INC A
+	LD ($F636),A
+	;RET	; va a 2D2B, que es la ROM
+	;jp finE
+	
+RET
+
+
+StartN:
+    F618N:
+	JP F6B1N
+
+
+F6B1N:
+	LD HL, $5D52;(5C4B)	; carga el valor 5D52
+	LD A,(HL)	; carga en A el valor de la dirección 5D52, que es 56
+	LD A,$56
+	CP 56
+	JR Z, F6C4N	; si (A == 56) salta a F6C4
+
+F6C4N:
+	INC HL
+	LD A,$A7 ; carga en A A7 (167)
+	PUSH AF
+	LD C,(HL) ; carga en C el valor 01
+	LD C,$01 ; le doy el dato que coge el programa
+	INC HL
+	LD B,(HL) ; carga en B el valor 00
+	LD B,$00 ; le doy el dato que coge el programa
+	LD A,B
+	OR C
+	;JP Z,F9C1 ; NO salta
+	INC HL
+	POP AF
+	RRCA ;8-bit rotation to the right. NO Divide por 2 (Valor tras ejecución D341)
+	; 8 bits de a7 a d3
+	LD ($F62B),A
+	LD ($F636),A
+	LD A,(HL)
+	LD A,$6E ; manual b
+	CP 20
+	;JR Z,F712 ; NO salta
+	CP 41
+	;JP C,F7D3 ;NO salta
+	CP $7B
+	;JP NC,F7D3 ;NO salta
+	CP $5B
+	;JR C,F6F3 ;NO salta
+	CP 61
+	;JP C,F7D3 ;NO salta
+	SUB $20 ; le restamos 20 a A
+	PUSH BC
+	PUSH HL
+	SUB $41
+	SLA A ;Shifts arg1 register to the left with bit 7 moved to the carry flag 
+		;and bit 0 reset (zeroed). ¿Multiplica por 2?
+	LD E,A
+	LD D,00
+	LD HL,$F71E
+	ADD HL,DE
+	LD E,(HL)
+	LD E,$AC ;manual N
+	INC HL
+	LD H,(HL)
+	LD H,$F8 ;manual N
+	LD L,E
+	CALL F61BN
+	JP F707N
+
+F61BN:
+	DI
+	LD B,(HL)
+	LD B,$01 ; manual N
+	INC HL
+F61EN:
+	PUSH BC
+	PUSH HL
+	LD E,(HL)
+	;LD E,$11 ; manual b
+	INC HL
+	LD D,(HL)
+	INC HL
+F624N:
+	LD B,(HL)
+	;LD B,$00 ; manual b
+	LD A,B
+	AND A
+	JR Z,F632N ; en b SI salta
+F629N:
+	LD A,$17
+	OUT ($FE),A
+	CALL F6B0N
+	DJNZ F629N ;Decreases B and jumps to a label if not zero. Note that DJNZ does a relative jump
+			; b vale 17 (en hex) y salta
+F632N:
+	INC HL
+	LD B,(HL)
+	;LD B,$FF ; manual b
+F634N:
+	LD A,07
+	OUT ($FE),A
+	CALL F6B0N
+	DJNZ F634N ; B vale 62 y lo repite muchas veces
+	INC HL
+	DEC DE ;Vale 3 la primera vez que entra
+	LD A,D
+	OR E
+	JR NZ,F624N ;salta la primera vez que entra
+F643N:		;le meto un breakpoint para ver cuando llega aqui
+	POP HL
+	POP BC
+	DJNZ F61EN ;SALTA la primera vez que llega
+F647N:		;le meto un breakpoint para ver cuando llega aqui
+	EI
+	RET ; Va a F707	
+	JP F707N
+
+F6B0N:
+	RET
+
+F707N:
+	POP HL
+	POP BC
+	DEC BC
+	INC HL
+	LD A,B
+	OR C
+	JP Z,F7D3N ; SI SALTA la priemra vez que llega
+;	JR F6D9
+
+F7D3N:
+	LD A,$3E
+	LD ($F62B),A
+	INC A
+	LD ($F636),A
+	;RET	; va a 2D2B, que es la ROM
+	;jp finN
+ret
+
+
+; datos de B
+.org 63570 ; F852
+datosB:	
+	DEFB $11,$0,$0,$FF,0,$FF,0,$FF,0,$FF,0,$FF
+	DEFB $18,$FF,00,$E5,00,$13,$24,$40,00,$49,$24,$99,$11,$0A,$06,$54
+	DEFB $15,$0F,$05,$6A,$17,$29,$09
+
+; datos de i
+.org 63479 ; F7F7
+datosI:	
+	DEFB $07,$0,$0A,$C1,$13,$03,$14,$51,$03
+	DEFB $0D,$06,$64,$0A,$06,$10,$9,$12
+
+; datos de E
+.org 63454 ; F7DE
+datosE:	
+	DEFB $0B,$0
+	DEFB $05,$5D,$0D,$06,$17,$6E,$7,$13,$06,$13,$0A,$0D,$16,$0E,$08,$12
+	DEFB $07,$16,$9,$0B,$16,$0C,$0D
+
+; datos de N
+.org 63666 ; F8B2
+datosN:	
+	DEFB $48,$00,$09
+	DEFB $06,$0D,$12,$10,$20,$08,$80,$06,$22,$09,$20,$0C,$82,$0D,$1E,$0E
+	DEFB $42,$09,$22,$09,$26,$09,$10,$09,$14,$12,$1E,$0C,$84,$04,$22,$09
+	DEFB $20,$0D,$1A,$02,$58,$08,$2C,$06,$40,$09,$20,$0D,$22,$08,$0E,$09
+	DEFB $06,$0D,$12,$10,$20,$08,$80,$06,$22,$09,$20,$0C,$82,$0D,$1E,$0E
+	DEFB $42,$09,$22,$09,$26,$09,$10,$09,$14,$12,$1E,$0C,$84,$04,$22,$09
+	DEFB $20,$0D,$1A,$02,$58,$08,$2C,$06,$40,$09,$20,$0D,$22,$08,$0E,$09
+	DEFB $06,$0D,$12,$10,$20,$08,$80,$06,$22,$09,$20,$0C,$82,$0D,$1E,$0E
+	DEFB $42,$09,$22,$09,$26,$09,$10,$09,$14,$12,$1E,$0C,$84,$04,$22,$09
+	DEFB $20,$0D,$1A,$02,$58,$08,$2C,$06,$40,$09,$20,$0D,$22,$08,$0E,$06

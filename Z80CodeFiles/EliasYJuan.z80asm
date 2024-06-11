@@ -3,6 +3,8 @@
 ; No todo el codigo de este archivo es original mio, pero mi intención es mover todo el codigo ajeno a "rutinasPrevias.z80asm".
 ;-------------------------------------------------------------
 
+.org 35000
+
 ; Put your Z80 assembly code into code files <- Comentario creado con el SpectNetIde que indica adonde comienza todo.
 Start:
 
@@ -46,7 +48,7 @@ redraw:
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
     CALL frutasEspeciales4 ; comprueba si hemos cogido la pera
-    ;CALL meterRetardo    ;descomentar antes de versión final
+    CALL meterRetardo    ;descomentar antes de versión final
     
 bucle:
     xor a
@@ -57,7 +59,7 @@ bucle:
     CP 0    
     jp z, meSaltoJoystick
 ;    pop AF
-    ;CALL leerJoystick           ; leemos joystick
+    CALL leerJoystick           ; leemos joystick
 
 meSaltoJoystick:    
     ;pop AF
@@ -507,3 +509,5 @@ joystickDesactivado DEFB 0      ; para controlar el joystick
 #include "meta.z80asm"
 #include "niveles.z80asm"
 #include "marcandoBloquesEspeciales.z80asm"
+;#include "voz1.z80asm"
+;#include "voz2.z80asm"
