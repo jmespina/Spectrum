@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Tap Include="TapeFiles\EliasYJuan.tap" />
+    <Tap Include="TapeFiles\EliasYJuan1.tap" />
     <Tap Include="TapeFiles\principal.tap" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />
