@@ -42,15 +42,17 @@ CALL pintarBicho ; inicializamos
 CALL seleccionarNivel ; elegimos nivel 1
  
 redraw:
+    ; nucleo del juego
     call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
     call DrawSprite_16x16_LD ; pintamos el bicho moviendose
     ;call ImpMap10x10 ; Imprimimos el mapa 10x10 (y lo borramos)
+    ; efectos especiales
     CALL frutasEspeciales ;comprueba si nos hemos comido unas uvas para mayor velocidad
     CALL frutasEspeciales2 ; comprueba si hemos cogido el chupete
     CALL frutasEspeciales4 ; comprueba si hemos cogido la pera
     CALL meterRetardo    ;descomentar antes de versión final
     
-bucle:
+bucle: ; bucle del teclado y movimiento correspondiente
     xor a
     call LEER_TECLADO          ; Leemos el estado de O, P, Q, A
 ;    push AF
@@ -112,8 +114,7 @@ checkCtrl_Kempston_final:
     ld a,d
 RET
 
-podemosIrDer:                  
-    
+podemosIrDer:                      
 
     ld hl, (DS_COORD_Y)
     SRL L   ; ahora si es impar, mira arriba
@@ -162,7 +163,6 @@ parDerecha:
 
     cp 0               ; comparamos con 0, si es 0 se puede mover.
     jp z, moverBichoDerecha
-        
 RET
 
 
@@ -178,7 +178,6 @@ moverBichoDerecha:
     inc c ;
     ld      a,c
     ld		(DS_COORD_X), a
-    
 RET 
 
 podemosIrAbajo:
@@ -378,8 +377,6 @@ parArriba: ;si C era par no hacemos nada
 
     CP 0
     jp z, moverBichoArriba
-    
-
 RET
 
 moverBichoArriba:
