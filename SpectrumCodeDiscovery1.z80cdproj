@@ -35,8 +35,10 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Tap Include="TapeFiles\EliasYJuan %28Retro Virtual Machine + joystick Kempston%29.tap" />
     <Tap Include="TapeFiles\EliasYJuan.tap" />
     <Tap Include="TapeFiles\EliasYJuan1.tap" />
+    <Tap Include="TapeFiles\EliasYJuan %28sin joystick%29.tap" />
     <Tap Include="TapeFiles\principal.tap" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />

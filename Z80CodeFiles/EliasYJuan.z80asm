@@ -61,7 +61,7 @@ bucle: ; bucle del teclado y movimiento correspondiente
     CP 0    
     jp z, meSaltoJoystick
 ;    pop AF
-    CALL leerJoystick           ; leemos joystick
+    ;CALL leerJoystick           ; leemos joystick
 
 meSaltoJoystick:    
     ;pop AF
