@@ -161,6 +161,8 @@ drawmg16_xloop:
     cp 12
     jp z, marcoPera
 
+
+
 ; Voy a meter aqui el codigo del huevo frito 13
     cp 13
     jp z, marcoHuevoFrito
@@ -172,6 +174,29 @@ drawmg16_xloop:
 ; Voy a meter aqui el codigo de la seta 19
     cp 19
     jp z, marcoSeta
+
+; Voy a meter aqui el codigo de la SETA QUE SE MUEVE 25
+    cp 25
+    jp z, marcoSetaMueve
+
+; Voy a meter aqui el codigo de la hierba
+    cp 21
+    jp z, marcoHierba21
+
+    cp 22
+    jp z, marcoHierba22
+
+    cp 23
+    jp z, marcoHierba23
+
+    cp 24
+    jp z, marcoHierba24
+
+    cp 26
+    jp z, marcoHierba23R
+
+    cp 27
+    jp z, marcoHierba22R
 
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
@@ -216,6 +241,10 @@ marcoUvas:
     jp sigoConElCodigoOriginal
 
 marcoChupete:
+    dec ix
+    ld (posChupeteMapa),ix
+    inc IX
+    
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
     LD A, $10 ;Voy a marcar las Uvas con el codigo 10
@@ -245,6 +274,34 @@ marcoPera:
     ld (posUvasMapa),ix ;guardo la posición de la pera para borrarlo cuando las tope
     jp sigoConElCodigoOriginal
 
+marcoSetaMueve:
+    push AF
+    EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
+    LD A, $25 ;Voy a marcar la pera con el codigo 25
+    LD (DE), a  ;JM
+    EXX
+    pop AF
+    
+    dec ix
+    ld (direccionSetaMueve),ix ;guardo la posición de la pera para borrarlo cuando las tope
+    inc ix
+    ld a,(posSetaMueve) 
+    cp 10
+    LD A, 25   ; Es necesario volver a cargar el valor de la Seta en A porque sino no se ve visible
+    jp nz, sigoConElCodigoOriginal
+    xor a
+    ld (posSetaMueve),a
+    LD A, 25   ; Es necesario volver a cargar el valor de la Seta en A porque sino no se ve visible
+    .loop 5
+            inc ix
+    .endl            
+    ld (direccionSetaMueveFinal),ix
+    .loop 5
+            dec ix
+    .endl            
+    jp sigoConElCodigoOriginal
+
+
 marcoHuevoFrito:
     push AF
     EXX     ;exchanges BC, DE, and HL with shadow registers with BC', DE', and HL'.
@@ -264,6 +321,31 @@ marcoSeta:
     pop AF
     ;ld (posUvasMapa),ix No lo necesito, que no se borren nunca
     jp sigoConElCodigoOriginal
+
+marcoHierba21:
+    ld (ix-1),22
+    jp sigoConElCodigoOriginal
+
+marcoHierba22:
+    ld (ix-1),23
+    jp sigoConElCodigoOriginal
+
+marcoHierba23:
+    ld (ix-1),24
+    jp sigoConElCodigoOriginal
+
+marcoHierba24:
+    ld (ix-1),26
+    jp sigoConElCodigoOriginal
+
+marcoHierba23R:
+    ld (ix-1),27
+    jp sigoConElCodigoOriginal
+
+marcoHierba22R:
+    ld (ix-1),21
+    jp sigoConElCodigoOriginal
+
 
 marcoConCeros:
     push AF

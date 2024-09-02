@@ -32,13 +32,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="Memoria TFG ELias y Juan %28UOC%29.pdf" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Tap Include="TapeFiles\EliasYJuan %28Retro Virtual Machine + joystick Kempston%29.tap" />
-    <Tap Include="TapeFiles\EliasYJuan.tap" />
-    <Tap Include="TapeFiles\EliasYJuan1.tap" />
-    <Tap Include="TapeFiles\EliasYJuan %28sin joystick%29.tap" />
+    <Tap Include="TapeFiles\EliasYJuan11rvm.tap" />
+    <Tap Include="TapeFiles\EliasYJuan11SJ.tap" />
+    <Tap Include="TapeFiles\EliasYJuanrvm.tap" />
+    <Tap Include="TapeFiles\EliasYJuansj.tap" />
     <Tap Include="TapeFiles\principal.tap" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />

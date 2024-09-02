@@ -2,6 +2,10 @@
 ; version final
 
 meta:
+    ; Vamos a restaurar el numero de flores porque sino no salen una vez que se cojan.
+    ld a,$14
+    LD (CONTADOR_DE_FLORES),A
+
     ld hl,(posMetaMapa)
     ld (hl),0
     call DrawMap_16x16_Map     ; Para borrar al coche tras cogerlo
@@ -45,6 +49,7 @@ loopRecorridoFinal:
 
     ;CALL voz1
     ;CALL voz2
+    
 
     ld a,(FrutaUvasReset)    
     cp 1 ; comprobamos si hemos cogido las uvas del flash
@@ -59,11 +64,66 @@ loopRecorridoFinal:
         inc hl
         inc de
     .endl 
+    
+    ; hay que reiniciar los mapas de los niveles 14, 24 y 25 por si se han cogido las setas
+	ld hl,mapa_nivel14
+    ld bc,1920  ; El nivel 14 tiene 1920 bloques.(Sin contar con los últimos 5 bloques del extremo derecho)
+
+    bucleFlores14fin:
+	CALL quitarFlores
+	INC HL
+    push HL ; guardo el valor de por donde voy
+
+    ld de,mapa_nivel14
+    sbc hl,de
+    sbc hl,bc
+    pop HL
+    jp c, bucleFlores14fin
+
+    ld hl,mapa_nivel24
+    ld bc,2800  ; El nivel 24 tiene 2880 bloques.
+
+    bucleFlores24fin:
+	CALL quitarFlores
+	INC HL
+    push HL ; guardo el valor de por donde voy
+
+    ld de,mapa_nivel24
+    sbc hl,de
+    sbc hl,bc
+    pop HL
+    jp c, bucleFlores24fin
+
+    ld hl,mapa_nivel25
+    ld bc,2800  ; El nivel 24 tiene 2880 bloques.
+
+    bucleFlores25fin:
+	CALL quitarFlores
+	INC HL
+    push HL ; guardo el valor de por donde voy
+
+    ld de,mapa_nivel25
+    sbc hl,de
+    sbc hl,bc
+    pop HL
+    jp c, bucleFlores25fin
+
 
 loopRecorridoFinalFinal:
     xor a
     ld (FrutaUvasVar),a ; Inicializo a 0 las frutas especiales
     ld (FrutaUvasReset),a
+
+    ; Vamos a restaurar la posición del coche antes de salirnos del nivel
+    ld hl,(posMetaMapa)
+    ld (hl),8
+
+    ; Vamos a restaurar la posición del chupete antes de salirnos del nivel
+    ld hl,(posChupeteMapa)
+    ld (hl),10
+
+    
+    
     jp inicioNivel       
 
  
@@ -91,3 +151,12 @@ metaConBebe:
 
     JP loopRecorridoFinal
     
+
+quitarFlores:
+	; comparo con el valor de la seta
+	ld a,(hl)
+    cp 20 ;Si es distinto de 0 no es el vacio, por lo que vuelvo sin machacarlo
+    ret nz
+    xor a     ; quito la flor en la posición del mapa que se haya calculado
+    ld (hl),a        
+RET

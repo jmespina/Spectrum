@@ -22,9 +22,12 @@ comprobarDestino:   ; vamos a comprobar que hay en la dirección de la tecla pul
     cp $13 ; JM comparamos con 13, si es 13 es el huevo frito alias Teletransporte
     jp z, teletransportar
 
-    cp $19 ; JM comparamos con 19, si es 19 es la seta, vuelva al inicio
+    cp $19 ; JM comparamos con 19, si es 19 es la seta, vuelta al inicio
     jp z, setas
 	
+    cp $25 ; JM comparamos con 25, si es 25 es la SETA QUE SE MUEVE, vuelta al inicio
+    jp z, setas
+
 	; para que suene al chocar contra una pared    
     cp 1
     jp z, PlaySound
@@ -78,8 +81,14 @@ mostrarBebe:
     call DrawSprite_16x16_LD
         
     ; A partir de aqui restauro los datos del personaje
-    ld hl, bicho_gfx ; codigo copiado de pintarBicho. Muestro al bebe y luego vuelvo a poner el mismo codigo para el personaje
-    ld (DS_SPRITES), hl
+    ld a,(patasMovimiento)
+    cp 0
+    jp z, patasOriginales
+    CALL cambio_patas
+    
+  sigoEjecucion:    
+    ;ld hl, bicho_gfx ; codigo copiado de pintarBicho. Muestro al bebe y luego vuelvo a poner el mismo codigo para el personaje
+    ;ld (DS_SPRITES), hl
     ld hl, bicho_attrib
     ld (DS_ATTRIBS), hl
     ld a, (DS_COORD_X)
@@ -89,10 +98,16 @@ mostrarBebe:
     ld (DS_COORD_X), a
 RET
 
+patasOriginales:
+    ld hl, bicho_gfx
+    ld (DS_SPRITES),hl ; le pongo las patas originales
+    jp sigoEjecucion
+
+
 frutasEspeciales3:
-    ld a,(FrutaUvasVar)
-    cp 3
-    ret  nz
+    ;ld a,(FrutaUvasVar)  Innecesario
+    ;cp 3                Innecesario
+    ;ret  nz  Innecesario
     ld hl,rocasAtributos
     .loop 28
         ld a,(hl)
@@ -100,13 +115,13 @@ frutasEspeciales3:
         ld (hl),a
         inc hl
     .endl            
-    xor a
-    ld (FrutaUvasVar),a
+    ; xor a   Innecesario
+    ;ld (FrutaUvasVar),a      Innecesario
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A
 RET
 
-CONTADOR_DE_FLORES  DEFB   8
+CONTADOR_DE_FLORES  DEFB   14 ; Durante 14 pasos pintara flores en la platalla
 
 frutasEspeciales4:
     ld a,(FrutaUvasVar)
@@ -122,6 +137,9 @@ frutasEspeciales4:
     ld a, (DM_NIVEL)
     cp 14
     jp z,floresCatorce
+
+    cp 25
+    jp z,floresVeinticinco
 
     ld hl,mapa_nivel24 ; Si llego aqui estoy en el nivel 24
     
@@ -150,7 +168,7 @@ frutasEspeciales4:
 RET
 
 floresCatorce:
-ld hl,mapa_nivel14 ; Si llego aqui estoy en el nivel 24
+    ld hl,mapa_nivel14 ; Si llego aqui estoy en el nivel 14
     
     ld bc,1920  ; El nivel 14 tiene 1920 bloques.(Sin contar con los últimos 5 bloques del extremo derecho)
     ld de,0
@@ -175,6 +193,34 @@ ld hl,mapa_nivel14 ; Si llego aqui estoy en el nivel 24
     ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
     ld (FrutaUvasReset),A
 RET
+
+floresVeinticinco:
+    ld hl,mapa_nivel25 ; Si llego aqui estoy en el nivel 24
+    
+    ld bc,2800  ; El nivel 25 tiene 2880 bloques.
+    ld de,0
+    bucleFlores25:
+        ld de, (DS_COORD_Y)
+        .loop 5
+            add hl,de
+        .endl            
+        ld de, (DS_COORD_X)
+        ld d,0
+        add hl,de
+        CALL ponerFlores
+
+        push HL ; guardo el valor de por donde voy
+
+        ld de,mapa_nivel25
+        sbc hl,de
+        sbc hl,bc
+        pop HL
+        jr c, bucleFlores25
+    
+    ld a,1 ; codigo para indicar que debo resetear los atributos cuando se inicia un nuevo nivel
+    ld (FrutaUvasReset),A
+RET
+
 
 ponerFlores:
         ld a,(hl)
@@ -218,8 +264,8 @@ RET
 platanoActivar:
     ;ld a,1
     ;out ($fe), a
-    ld a,3
-    ld (FrutaUvasVar),a
+    ;ld a,3              Innecesario
+    ;ld (FrutaUvasVar),a Innecesario
 
     ;ld hl,(posUvasMapa)
     ;dec hl
@@ -272,4 +318,79 @@ RET
 
 setas:
     jp inicioNivel    
+RET
+
+
+setaQueSeMueve:
+    or a
+    ld hl, (direccionSetaMueve)   ; Si es distinto de 0, que mueva la pera
+    ld a,h
+    cp 0
+    jr nz,moverSeta    
+    ;ld de,$0000
+    ;sbc hl,de
+    ;jr nc,moverSeta    
+RET
+
+moverSeta:
+    ld a,(sentidoSetaMueve)
+    cp 0
+    jr z,moverSetaDerecha
+    jp moverSetaIzq
+RET
+
+moverSetaDerecha:
+    or a
+    ld hl,(direccionSetaMueve)   ; Si es distinto de 0, que mueva la pera
+    ld de,(direccionSetaMueveFinal)
+    sbc hl,de
+    CALL z,invertirSentidoSeta
+    
+    ; Esto borra la antigua posición de la seta    
+    ld hl,(direccionSetaMueve)    ; Creo que no es necesario, o quizas si por el SBC
+    xor a
+    ld (hl),a
+    
+    ld hl, (direccionSetaMueve)
+    INC hl
+    ld a,25   
+    ld (hl),a
+    
+RET
+
+invertirSentidoSeta:
+    PUSH AF
+    ld a,(sentidoSetaMueve)
+    cp 0
+    
+    jr z, ponerAUno
+    xor a
+    ld (sentidoSetaMueve),a
+ponerAUnovolver:
+    POP AF
+RET
+
+ponerAUno:
+    ld a,1
+    ld (sentidoSetaMueve),a
+    JP ponerAUnovolver
+
+moverSetaIzq:
+    or a
+    ld hl,(direccionSetaMueve)   ; Si es distinto de 0, que mueva la pera
+    ld de,(direccionSetaMueveFinal)
+    .loop 5
+            dec DE
+    .endl
+    sbc hl,de
+    CALL z,invertirSentidoSeta
+
+    xor a
+    ld hl,(direccionSetaMueve)
+    ld (hl),a
+    
+    ld hl, (direccionSetaMueve)
+    DEC HL
+    ld a,25   
+    ld (hl),a
 RET

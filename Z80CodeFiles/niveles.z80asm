@@ -5,7 +5,7 @@ seleccionarNivel:
     ld a, (DM_NIVEL)
     cp 99
     jp z, noventaYNueve
-    ;jp z,veinticuatro
+    ;jp z,veinticinco
     cp 1
     jp z, uno
     cp 2
@@ -42,6 +42,8 @@ seleccionarNivel:
     jp z,veinticuatro
     cp 25
     jp z,veinticinco
+    cp 26
+    jp z,veintiseis
 
 ; Si ha llegado aqui no tiene nivel definido, lo voy a mandar al nivel 1
     ld a, 1
@@ -156,11 +158,22 @@ veinticuatro:
     ld hl, mapa_nivel24
     jp seleccionarNivelFin
 veinticinco:
+    ld a,25
+    ld (DM_NIVEL),a
+    ld a, 10
+    ld (DS_COORD_X), a
+    ld a,85  ; definimos las dimensiones del nivel 25
+    ld (ANCHO_MAPA_TILES),a
+    ld a,24
+    ld (ALTO_MAPA_TILES),a
+    ld hl, mapa_nivel25
+    jp seleccionarNivelFin
+veintiseis:
     ld a,16  ; definimos las dimensiones del nivel oculto 99
     ld (ANCHO_MAPA_TILES),a
     ld a,12
     ld (ALTO_MAPA_TILES),a
-    ld hl, mapa_nivel25 ;cargamos mapa
+    ld hl, mapa_nivel26 ;cargamos mapa
     ld (DM_MAP), hl        
     call DrawMap_16x16_Map     ; Imprimir pantalla de mapa
 
@@ -214,11 +227,12 @@ veinticinco:
     call DrawSprite_MxN_LD
 
 
-    .loop 2000
+    .loop 1000
         halt
     .endl        
     
     jp Start
+    
 
 seleccionarNivelFin:
     ld (DM_MAP), hl        
