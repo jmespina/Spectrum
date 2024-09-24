@@ -40,6 +40,7 @@ cambios versión 1.1 FINAL:
 
 
 
+
 Conocidos bugs:
 
 -Algunas cosas no vuelven a aparecer tras darle la vuelta (paredes falsas , setas,... ) Otras cosas si. (coches para poder terminar el nivel ) y chupetes para que siempre se pueda coger al hermanito.
@@ -51,13 +52,20 @@ Conocidos bugs:
 
 
 
-
+Objetos que se encuentran:
 
 -coche con efecto flash, es la meta.
+
 -uvas, le pone efecto flash a las muros.
+
 -chupete, hace que aparezca el hermanito.
+
 -platano, cambia los atributos de los muros.
+
 -pera, hace que aparezcan gradualmente flores por el mapeado.
+
 -huevo frito, teletransportador.
+
 -seta, para volver al inicio del nivel.
+
 -muro falso.
